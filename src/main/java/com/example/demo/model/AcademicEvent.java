@@ -2,7 +2,7 @@ package com.example.academic.model;
 
 import java.time.LocalDateTime;
 
-public class ClashRecord  {
+public class AcademicEvent  {
     private Long id;
     private Long eventAId;
     private Long eventBId;
