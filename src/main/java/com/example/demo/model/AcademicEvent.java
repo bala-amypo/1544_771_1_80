@@ -1,72 +1,84 @@
 package com.example.academic.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class AcademicEvent  {
+
+public class AcademicEvent {
     private Long id;
-    private Long eventAId;
-    private Long eventBId;
-    private String clashType;
-    private String severity;
-    private String details;
-    private LocalDateTime detectedAt;
-    private Boolean resolved;
-    public ClashRecord(Long eventAId, Long eventBId, String clashType, String severity, String details,
-            LocalDateTime detectedAt, Boolean resolved) {
-        this.eventAId = eventAId;
-        this.eventBId = eventBId;
-        this.clashType = clashType;
-        this.severity = severity;
-        this.details = details;
-        this.detectedAt = detectedAt;
-        this.resolved = resolved;
+    private Long branchId;
+    private String title;
+    private String eventType;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private String location;
+    private String description;
+    private LocalDateTime submittedAt;
+    public AcademicEvent(Long branchId, String title, String eventType, LocalDate startDate, LocalDate endDate,
+            String location, String description, LocalDateTime submittedAt) {
+        this.branchId = branchId;
+        this.title = title;
+        this.eventType = eventType;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.location = location;
+        this.description = description;
+        this.submittedAt = submittedAt;
     }
     public Long getId() {
         return id;
     }
-    public Long getEventAId() {
-        return eventAId;
+    public Long getBranchId() {
+        return branchId;
     }
-    public Long getEventBId() {
-        return eventBId;
+    public String getTitle() {
+        return title;
     }
-    public String getClashType() {
-        return clashType;
+    public String getEventType() {
+        return eventType;
     }
-    public String getSeverity() {
-        return severity;
+    public LocalDate getStartDate() {
+        return startDate;
     }
-    public String getDetails() {
-        return details;
+    public LocalDate getEndDate() {
+        return endDate;
     }
-    public LocalDateTime getDetectedAt() {
-        return detectedAt;
+    public String getLocation() {
+        return location;
     }
-    public Boolean getResolved() {
-        return resolved;
+    public String getDescription() {
+        return description;
+    }
+    public LocalDateTime getSubmittedAt() {
+        return submittedAt;
     }
     public void setId(Long id) {
         this.id = id;
     }
-    public void setEventAId(Long eventAId) {
-        this.eventAId = eventAId;
+    public void setBranchId(Long branchId) {
+        this.branchId = branchId;
     }
-    public void setEventBId(Long eventBId) {
-        this.eventBId = eventBId;
+    public void setTitle(String title) {
+        this.title = title;
     }
-    public void setClashType(String clashType) {
-        this.clashType = clashType;
+    public void setEventType(String eventType) {
+        this.eventType = eventType;
     }
-    public void setSeverity(String severity) {
-        this.severity = severity;
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
     }
-    public void setDetails(String details) {
-        this.details = details;
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
     }
-    public void setDetectedAt(LocalDateTime detectedAt) {
-        this.detectedAt = detectedAt;
+    public void setLocation(String location) {
+        this.location = location;
     }
-    public void setResolved(Boolean resolved) {
-        this.resolved = resolved;
+    public void setDescription(String description) {
+        this.description = description;
     }
+    public void setSubmittedAt(LocalDateTime submittedAt) {
+        this.submittedAt = submittedAt;
+    }
+   
+    
 }
