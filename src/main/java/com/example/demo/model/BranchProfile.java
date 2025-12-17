@@ -1,6 +1,6 @@
 package com.example.academic.model;
 
-import java.time.LocalDateTime;
+//import java.time.LocalDateTime;
 
 public class BranchProfile {
     private long id;
