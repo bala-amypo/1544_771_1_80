@@ -1,10 +1,10 @@
-package com.example.academic.service;
+package com.example.demo.service;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.example.academic.entity.AcademicEvent;
+import com.example.demo.entity.AcademicEvent;
 
 @Service
 public interface AcademicEventService {
