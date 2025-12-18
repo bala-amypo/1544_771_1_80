@@ -6,8 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.demo.entity.AcademicEvent;
 
-public interface AcademicEventRepository
-        extends JpaRepository<AcademicEvent, Long> {
-
-    List<AcademicEvent> findByBranchId(Long branchId);
+public interface AcademicEventRepository extends JpaRepository<AcademicEvent, Long> {
+List<AcademicEvent> findByBranchId(Long branchId);
 }
