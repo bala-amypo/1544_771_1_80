@@ -25,8 +25,7 @@ public class AcademicEventServiceImpl implements AcademicEventService {
 
     @Override
     public AcademicEvent updateEvent(Long id, AcademicEvent event) {
-        Optional<AcademicEvent> optionalEvent =
-                academicEventRepository.findById(id);
+        Optional<AcademicEvent> optionalEvent =academicEventRepository.findById(id);
 
         if (!optionalEvent.isPresent()) {
             return null;   // no exception
