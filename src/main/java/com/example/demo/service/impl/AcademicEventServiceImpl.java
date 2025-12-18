@@ -25,18 +25,19 @@ public class AcademicEventServiceImpl implements AcademicEventService {
 
     @Override
     public AcademicEvent updateEvent(Long id, AcademicEvent event) {
-        Optional<AcademicEvent> optionalEvent =academicEventRepository.findById(id);
+        Optional<AcademicEvent> optional =
+                academicEventRepository.findById(id);
 
-        if (!optionalEvent.isPresent()) {
-            return null;   // no exception
+        if (optional.isEmpty()) {
+            return null;
         }
 
-        AcademicEvent existingEvent = optionalEvent.get();
-        existingEvent.setEventType(event.getEventType());
-        existingEvent.setEndDate(event.getEndDate());
-        existingEvent.setBranchId(event.getBranchId());
+        AcademicEvent existing = optional.get();
+        existing.setEventType(event.getEventType());
+        existing.setEndDate(event.getEndDate());
+        existing.setBranchId(event.getBranchId());
 
-        return academicEventRepository.save(existingEvent);
+        return academicEventRepository.save(existing);
     }
 
     @Override
