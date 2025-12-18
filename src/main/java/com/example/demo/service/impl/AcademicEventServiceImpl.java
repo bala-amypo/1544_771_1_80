@@ -1,54 +1,55 @@
-package com.example.demo.service.impl;
+package com.example.onetomany.service;
 
+import com.example.onetomany.model.Department;
+import com.example.onetomany.model.Employee;
+import com.example.onetomany.repository.DepartmentRepository;
+import com.example.onetomany.repository.EmployeeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.entity.AcademicEvent;
-import com.example.demo.repository.AcademicEventRepository;
-import com.example.demo.service.AcademicEventService;
+import java.util.List;
+import java.util.Optional;
 
 @Service
-public class AcademicEventServiceImpl implements AcademicEventService {
-
-    private final AcademicEventRepository academicEventRepository;
-
-    public AcademicEventServiceImpl(AcademicEventRepository academicEventRepository) {
-        this.academicEventRepository = academicEventRepository;
-    }
-
+@Transactional
+public class DepartmentServiceImpl implements DepartmentService {
+    
+    @Autowired
+    private DepartmentRepository departmentRepository;
+    
+    @Autowired
+    private EmployeeRepository employeeRepository;
+    
     @Override
-    public AcademicEvent createEvent(AcademicEvent event) {
-        return academicEventRepository.save(event);
+    public List<Department> getAllDepartments() {
+        return departmentRepository.findAll();
     }
-
+    
     @Override
-    public AcademicEvent updateEvent(Long id, AcademicEvent event) {
-        Optional<AcademicEvent> optionalEvent =
-                academicEventRepository.findById(id);
-
-        if (!optionalEvent.isPresent()) {
-            return null;   // no exception
+    public Optional<Department> getDepartmentById(Long id) {
+        return departmentRepository.findById(id);
+    }
+    
+    @Override
+    public Department createDepartment(Department department) {
+        if (department.getEmployees() != null) {
+            for (Employee employee : department.getEmployees()) {
+                employee.setDepartment(department);
+            }
         }
-
-        AcademicEvent existingEvent = optionalEvent.get();
-        existingEvent.setEventType(event.getEventType());
-        existingEvent.setEndDate(event.getEndDate());
-        existingEvent.setBranchId(event.getBranchId());
-
-        return academicEventRepository.save(existingEvent);
+        return departmentRepository.save(department);
     }
-
+    
     @Override
-    public List<AcademicEvent> getEventsByBranch(Long branchId) {
-        return academicEventRepository.findByBranchId(branchId);
-    }
-
-    @Override
-    public AcademicEvent getEventById(Long id) {
-        return academicEventRepository.findById(id).orElse(null);
-    }
-
-    @Override
-    public List<AcademicEvent> getAllEvents() {
-        return academicEventRepository.findAll();
+    public Employee addEmployeeToDepartment(Long departmentId, Employee employee) {
+        Optional<Department> departmentOpt = departmentRepository.findById(departmentId);
+        if (departmentOpt.isPresent()) {
+            Department department = departmentOpt.get();
+            employee.setDepartment(department);
+            return employeeRepository.save(employee);
+        }
+        throw new RuntimeException("Department not found with id: " + departmentId);
     }
 }
+
