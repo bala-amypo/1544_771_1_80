@@ -1,10 +1,10 @@
-package com.example.academic.service.impl;
+package com.example.demo.service.impl;
 
 import org.springframework.stereotype.Service;
 
-import com.example.academic.entity.AcademicEvent;
-import com.example.academic.repository.AcademicEventRepository;
-import com.example.academic.service.AcademicEventService;
+import com.example.demo.entity.AcademicEvent;
+import com.example.demo.repository.AcademicEventRepository;
+import com.example.demo.service.AcademicEventService;
 
 @Service
 public class AcademicEventServiceImpl implements AcademicEventService {
