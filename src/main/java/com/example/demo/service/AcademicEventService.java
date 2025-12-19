@@ -1,8 +1,7 @@
-package com.example.demo.service;
-
-import com.example.demo.entity.AcademicEvent;
+ package com.example.demo.service;
 
 import java.util.List;
+import com.example.demo.entity.AcademicEvent;
 
 public interface AcademicEventService {
 
