@@ -72,7 +72,7 @@ public class AcademicEventController {
         return ResponseEntity.ok(event);
     }
 
-    // GET /api/events - List all events
+   
     @GetMapping
     public ResponseEntity<List<AcademicEvent>> getAllEvents() {
 
