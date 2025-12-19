@@ -19,7 +19,7 @@ public class AcademicEventController {
         this.academicEventService = academicEventService;
     }
 
-    // POST /api/events - Create new academic event
+   
     @PostMapping
     public ResponseEntity<AcademicEvent> createEvent(
             @RequestBody AcademicEvent event) {
@@ -30,7 +30,7 @@ public class AcademicEventController {
         return new ResponseEntity<>(createdEvent, HttpStatus.CREATED);
     }
 
-    // PUT /api/events/{id} - Update event
+    
     @PutMapping("/{id}")
     public ResponseEntity<AcademicEvent> updateEvent(
             @PathVariable Long id,
@@ -46,7 +46,7 @@ public class AcademicEventController {
         return ResponseEntity.ok(updatedEvent);
     }
 
-    // GET /api/events/branch/{branchId} - Get events by branch
+    
     @GetMapping("/branch/{branchId}")
     public ResponseEntity<List<AcademicEvent>> getEventsByBranch(
             @PathVariable Long branchId) {
@@ -57,7 +57,7 @@ public class AcademicEventController {
         return ResponseEntity.ok(events);
     }
 
-    // GET /api/events/{id} - Get event by ID
+    
     @GetMapping("/{id}")
     public ResponseEntity<AcademicEvent> getEventById(
             @PathVariable Long id) {
