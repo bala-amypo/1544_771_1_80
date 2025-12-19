@@ -1,51 +1,53 @@
 package com.example.demo.service.impl;
-import java.util.List;
 
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.example.demo.entity.AcademicEvent;
-import com.example.demo.repository.AcademicEventRepository;
-import com.example.demo.service.AcademicEventService;
+import com.example.demo.entity.BranchProfile;
+import com.example.demo.repository.BranchProfileRepository;
+import com.example.demo.service.BranchProfileService;
 
 @Service
-public class AcademicEventServiceImpl implements AcademicEventService {
+public class BranchProfileServiceImpl implements BranchProfileService {
 
-    private final AcademicEventRepository academicEventRepository;
+    private final BranchProfileRepository repository;
 
-    public AcademicEventServiceImpl(AcademicEventRepository academicEventRepository) {
-        this.academicEventRepository = academicEventRepository;
+    public BranchProfileServiceImpl(BranchProfileRepository repository) {
+        this.repository = repository;
     }
 
     @Override
-    public AcademicEvent createEvent(AcademicEvent event) {
-        return academicEventRepository.save(event);
+    public BranchProfile createBranch(BranchProfile branch) {
+        return repository.save(branch);
     }
 
     @Override
-    public AcademicEvent updateEvent(Long id, AcademicEvent event) {
-        return academicEventRepository.findById(id)
-                .map(existing -> {
-                    existing.setEventType(event.getEventType());
-                    existing.setEndDate(event.getEndDate());
-                    existing.setBranchId(event.getBranchId());
-                    return academicEventRepository.save(existing);
-                })
-                .orElse(null);
+    public BranchProfile updateBranchStatus(Long id, boolean active) {
+        Optional<BranchProfile> optionalBranch = repository.findById(id);
+        if (optionalBranch.isPresent()) {
+            BranchProfile branch = optionalBranch.get();
+            branch.setActive(active);
+            return repository.save(branch);
+        }
+        return null;
     }
 
     @Override
-    public List<AcademicEvent> getEventsByBranch(Long branchId) {
-        return academicEventRepository.findByBranchId(branchId);     
+    public BranchProfile getBranchById(Long id) {
+        Optional<BranchProfile> optionalBranch = repository.findById(id);
+        return optionalBranch.orElse(null);
     }
 
     @Override
-    public AcademicEvent getEventById(Long id) {
-        return academicEventRepository.findById(id).orElse(null);
+    public List<BranchProfile> getAllBranches() {
+        return repository.findAll();
     }
 
     @Override
-    public List<AcademicEvent> getAllEvents() {
-        return academicEventRepository.findAll();
+    public BranchProfile findByBranchCode(String branchCode) {
+        Optional<BranchProfile> optionalBranch = repository.findByBranchCode(branchCode);
+        return optionalBranch.orElse(null);
     }
 }
