@@ -1,11 +1,17 @@
-package com.example.demo.model;
+package com.example.demo.entity;
 
+import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-
+@Entity
+@Table(name = "academic_events")
 public class AcademicEvent {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private Long branchId;
     private String title;
     private String eventType;
@@ -14,8 +20,14 @@ public class AcademicEvent {
     private String location;
     private String description;
     private LocalDateTime submittedAt;
-    public AcademicEvent(Long branchId, String title, String eventType, LocalDate startDate, LocalDate endDate,
-            String location, String description, LocalDateTime submittedAt) {
+
+    // REQUIRED by JPA
+    public AcademicEvent() {}
+
+    public AcademicEvent(Long branchId, String title, String eventType,
+                         LocalDate startDate, LocalDate endDate,
+                         String location, String description,
+                         LocalDateTime submittedAt) {
         this.branchId = branchId;
         this.title = title;
         this.eventType = eventType;
@@ -25,60 +37,77 @@ public class AcademicEvent {
         this.description = description;
         this.submittedAt = submittedAt;
     }
+
     public Long getId() {
         return id;
     }
+
     public Long getBranchId() {
         return branchId;
     }
+
     public String getTitle() {
         return title;
     }
+
     public String getEventType() {
         return eventType;
     }
+
     public LocalDate getStartDate() {
         return startDate;
     }
+
     public LocalDate getEndDate() {
         return endDate;
     }
+
     public String getLocation() {
         return location;
     }
+
     public String getDescription() {
         return description;
     }
+
     public LocalDateTime getSubmittedAt() {
         return submittedAt;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
+
     public void setBranchId(Long branchId) {
         this.branchId = branchId;
     }
+
     public void setTitle(String title) {
         this.title = title;
     }
+
     public void setEventType(String eventType) {
         this.eventType = eventType;
     }
+
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
+
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
+
     public void setLocation(String location) {
         this.location = location;
     }
+
     public void setDescription(String description) {
         this.description = description;
     }
+
     public void setSubmittedAt(LocalDateTime submittedAt) {
         this.submittedAt = submittedAt;
     }
-   
-    
+
 }

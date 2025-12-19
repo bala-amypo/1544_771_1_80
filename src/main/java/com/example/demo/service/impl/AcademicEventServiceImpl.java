@@ -1,7 +1,6 @@
 package com.example.demo.service.impl;
-
 import java.util.List;
-import java.util.Optional;
+
 
 import org.springframework.stereotype.Service;
 
@@ -25,24 +24,19 @@ public class AcademicEventServiceImpl implements AcademicEventService {
 
     @Override
     public AcademicEvent updateEvent(Long id, AcademicEvent event) {
-        Optional<AcademicEvent> optional =
-                academicEventRepository.findById(id);
-
-        if (optional.isEmpty()) {
-            return null;
-        }
-
-        AcademicEvent existing = optional.get();
-        existing.setEventType(event.getEventType());
-        existing.setEndDate(event.getEndDate());
-        existing.setBranchId(event.getBranchId());
-
-        return academicEventRepository.save(existing);
+        return academicEventRepository.findById(id)
+                .map(existing -> {
+                    existing.setEventType(event.getEventType());
+                    existing.setEndDate(event.getEndDate());
+                    existing.setBranchId(event.getBranchId());
+                    return academicEventRepository.save(existing);
+                })
+                .orElse(null);
     }
 
     @Override
     public List<AcademicEvent> getEventsByBranch(Long branchId) {
-        return academicEventRepository.findByBranchId(branchId);
+        return academicEventRepository.findByBranchId(branchId);     
     }
 
     @Override
