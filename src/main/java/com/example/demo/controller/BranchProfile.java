@@ -16,7 +16,7 @@ import com.example.demo.service.BranchProfileService;
 
 @RestController
 @RequestMapping("/api/branches")
-@Tag(name = "Branch Profiles")
+
 public class BranchProfileController {
 
     private final BranchProfileService service;
