@@ -19,7 +19,7 @@ public class AcademicEventController {
         this.academicEventService = academicEventService;
     }
 
-   
+    
     @PostMapping
     public ResponseEntity<AcademicEvent> createEvent(
             @RequestBody AcademicEvent event) {
@@ -46,7 +46,7 @@ public class AcademicEventController {
         return ResponseEntity.ok(updatedEvent);
     }
 
-    
+   
     @GetMapping("/branch/{branchId}")
     public ResponseEntity<List<AcademicEvent>> getEventsByBranch(
             @PathVariable Long branchId) {
