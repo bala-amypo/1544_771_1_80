@@ -21,7 +21,7 @@ public class AcademicEvent {
     private String description;
     private LocalDateTime submittedAt;
 
-    // REQUIRED by JPA
+    
     public AcademicEvent() {}
 
     public AcademicEvent(Long branchId, String title, String eventType,
