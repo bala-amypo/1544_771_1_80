@@ -31,7 +31,7 @@ public class BranchProfileController {
         return service.createBranch(branch);
     }
 
-    // PUT /api/branches/{id}/status?active=true
+    
     @PutMapping("/{id}/status")
     public BranchProfile updateStatus(
             @PathVariable Long id,
