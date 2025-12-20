@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-Table(
+@Table(
     name = "EventMerge Record",
     uniqueConstraints = @UniqueConstraint(columnNames = "branchCode")
 )

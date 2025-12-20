@@ -26,7 +26,7 @@ public class EventMergeController {
         this.service = service;
     }
 
-    // POST /api/merge-records
+    
     @PostMapping
     public EventMergeRecord mergeEvents(
             @RequestParam List<Long> eventIds,
@@ -34,7 +34,7 @@ public class EventMergeController {
         return service.mergeEvents(eventIds, reason);
     }
 
-    // GET /api/merge-records/{id}
+  
     @GetMapping("/{id}")
     public EventMergeRecord getById(@PathVariable Long id) {
         return service.getMergeRecordById(id);
@@ -45,8 +45,6 @@ public class EventMergeController {
     public List<EventMergeRecord> getAll() {
         return service.getAllMergeRecords();
     }
-
-    /
     @GetMapping("/range")
     public List<EventMergeRecord> getByDateRange(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start,

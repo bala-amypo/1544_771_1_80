@@ -5,7 +5,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "academic_events")
+able(
+    name = "EventMerge Record",
+    uniqueConstraints = @UniqueConstraint(columnNames = "branchCode")
+)
 public class AcademicEvent {
 
     @Id
