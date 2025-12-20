@@ -7,15 +7,15 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.EventMergeRecord;
-import com.example.demo.repository.EventMergeRepository;
+import com.example.demo.repository.EventMergeRecordRepository;
 import com.example.demo.service.EventMergeService;
 
 @Service
 public class EventMergeServiceImpl implements EventMergeService {
 
-    private final EventMergeRepository repository;
+    private final EventMergeRecordRepository repository;
 
-    public EventMergeServiceImpl(EventMergeRepository repository) {
+    public EventMergeServiceImpl(EventMergeRecordRepository repository) {
         this.repository = repository;
     }
 
