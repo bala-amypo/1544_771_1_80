@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 @Entity
 Table(
-    name = "branch_profile",
+    name = "EventMerge Record",
     uniqueConstraints = @UniqueConstraint(columnNames = "branchCode")
 )
 public class EventMergeRecord {
