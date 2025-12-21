@@ -1,6 +1,6 @@
 package com.example.demo.service.impl;
-import java.util.List;
 
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -11,41 +11,44 @@ import com.example.demo.service.AcademicEventService;
 @Service
 public class AcademicEventServiceImpl implements AcademicEventService {
 
-    private final AcademicEventRepository academicEventRepository;
+    private final AcademicEventRepository repository;
 
-    public AcademicEventServiceImpl(AcademicEventRepository academicEventRepository) {
-        this.academicEventRepository = academicEventRepository;
+    public AcademicEventServiceImpl(AcademicEventRepository repository) {
+        this.repository = repository;
     }
 
     @Override
     public AcademicEvent createEvent(AcademicEvent event) {
-        return academicEventRepository.save(event);
-    }
-
-    @Override
-    public AcademicEvent updateEvent(Long id, AcademicEvent event) {
-        return academicEventRepository.findById(id)
-                .map(existing -> {
-                    existing.setEventType(event.getEventType());
-                    existing.setEndDate(event.getEndDate());
-                    existing.setBranchId(event.getBranchId());
-                    return academicEventRepository.save(existing);
-                })
-                .orElse(null);
-    }
-
-    @Override
-    public List<AcademicEvent> getEventsByBranch(Long branchId) {
-        return academicEventRepository.findByBranchId(branchId);     
+        if (event.getStartDate().isAfter(event.getEndDate())) {
+            throw new RuntimeException("startDate cannot be after endDate");
+        }
+        return repository.save(event);
     }
 
     @Override
     public AcademicEvent getEventById(Long id) {
-        return academicEventRepository.findById(id).orElse(null);
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Event not found"));
     }
 
     @Override
     public List<AcademicEvent> getAllEvents() {
-        return academicEventRepository.findAll();
+        return repository.findAll();
+    }
+
+    @Override
+    public List<AcademicEvent> getEventsByBranch(Long branchId) {
+        return repository.findByBranchId(branchId);
+    }
+
+    @Override
+    public AcademicEvent updateEvent(Long id, AcademicEvent event) {
+        AcademicEvent existing = getEventById(id);
+        existing.setTitle(event.getTitle());
+        existing.setBranchId(event.getBranchId());
+        existing.setStartDate(event.getStartDate());
+        existing.setEndDate(event.getEndDate());
+        existing.setDescription(event.getDescription());
+        return repository.save(existing);
     }
 }
