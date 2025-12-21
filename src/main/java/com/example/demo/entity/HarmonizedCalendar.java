@@ -1,11 +1,10 @@
 package com.example.demo.entity;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import jakarta.persistence.*;
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "harmonized_calendars")
+@Table(name = "harmonized_calendar")
 public class HarmonizedCalendar {
 
     @Id
@@ -13,75 +12,55 @@ public class HarmonizedCalendar {
     private Long id;
 
     private String title;
+
     private String generatedBy;
 
-    private LocalDateTime generatedAt;
+    private LocalDate startDate;
 
-    private LocalDate effectiveFrom;
-    private LocalDate effectiveTo;
+    private LocalDate endDate;
 
-    private String eventsJson;
-
-    @PrePersist
-    public void onCreate() {
-        this.generatedAt = LocalDateTime.now();
+    // ===== Constructors =====
+    public HarmonizedCalendar() {
     }
 
+    // ===== Getters & Setters =====
     public Long getId() {
         return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getGeneratedBy() {
-        return generatedBy;
-    }
-
-    public LocalDateTime getGeneratedAt() {
-        return generatedAt;
-    }
-
-    public LocalDate getEffectiveFrom() {
-        return effectiveFrom;
-    }
-
-    public LocalDate getEffectiveTo() {
-        return effectiveTo;
-    }
-
-    public String getEventsJson() {
-        return eventsJson;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getGeneratedBy() {
+        return generatedBy;
     }
 
     public void setGeneratedBy(String generatedBy) {
         this.generatedBy = generatedBy;
     }
 
-    public void setGeneratedAt(LocalDateTime generatedAt) {
-        this.generatedAt = generatedAt;
+    public LocalDate getStartDate() {
+        return startDate;
     }
 
-    public void setEffectiveFrom(LocalDate effectiveFrom) {
-        this.effectiveFrom = effectiveFrom;
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
     }
 
-    public void setEffectiveTo(LocalDate effectiveTo) {
-        this.effectiveTo = effectiveTo;
+    public LocalDate getEndDate() {
+        return endDate;
     }
 
-    public void setEventsJson(String eventsJson) {
-        this.eventsJson = eventsJson;
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
     }
-
-    
 }
