@@ -1,11 +1,11 @@
 package com.example.demo.service.impl;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.BranchProfile;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.BranchProfileRepository;
 import com.example.demo.service.BranchProfileService;
 
@@ -25,19 +25,11 @@ public class BranchProfileServiceImpl implements BranchProfileService {
 
     @Override
     public BranchProfile updateBranchStatus(Long id, boolean active) {
-        Optional<BranchProfile> optionalBranch = repository.findById(id);
-        if (optionalBranch.isPresent()) {
-            BranchProfile branch = optionalBranch.get();
-            branch.setActive(active);
-            return repository.save(branch);
-        }
-        return null;
-    }
+        BranchProfile branch = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Branch not found"));
 
-    @Override
-    public BranchProfile getBranchById(Long id) {
-        Optional<BranchProfile> optionalBranch = repository.findById(id);
-        return optionalBranch.orElse(null);
+        branch.setActive(active);
+        return repository.save(branch);
     }
 
     @Override
@@ -46,8 +38,14 @@ public class BranchProfileServiceImpl implements BranchProfileService {
     }
 
     @Override
+    public BranchProfile getBranchById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Branch not found"));
+    }
+
+    @Override
     public BranchProfile findByBranchCode(String branchCode) {
-        Optional<BranchProfile> optionalBranch = repository.findByBranchCode(branchCode);
-        return optionalBranch.orElse(null);
+        return repository.findByBranchCode(branchCode)
+                .orElseThrow(() -> new ResourceNotFoundException("Branch not found"));
     }
 }
