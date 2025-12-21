@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +17,7 @@ import com.example.demo.service.BranchProfileService;
 
 @RestController
 @RequestMapping("/api/branches")
-
+@CrossOrigin
 public class BranchProfileController {
 
     private final BranchProfileService service;
@@ -25,35 +26,29 @@ public class BranchProfileController {
         this.service = service;
     }
 
-   
     @PostMapping
     public BranchProfile createBranch(@RequestBody BranchProfile branch) {
         return service.createBranch(branch);
     }
 
-    
     @PutMapping("/{id}/status")
-    public BranchProfile updateStatus(
-            @PathVariable Long id,
-            @RequestParam boolean active) {
+    public BranchProfile updateStatus(@PathVariable Long id,
+                                      @RequestParam boolean active) {
         return service.updateBranchStatus(id, active);
     }
 
-    // GET /api/branches/{id}
     @GetMapping("/{id}")
     public BranchProfile getById(@PathVariable Long id) {
         return service.getBranchById(id);
     }
 
-    // GET /api/branches
     @GetMapping
-    public List<BranchProfile> getAllBranches() {
+    public List<BranchProfile> getAll() {
         return service.getAllBranches();
     }
 
-    
-    @GetMapping("/by-code/{branchCode}")
-    public BranchProfile getByBranchCode(@PathVariable String branchCode) {
+    @GetMapping("/lookup/{branchCode}")
+    public BranchProfile getByCode(@PathVariable String branchCode) {
         return service.findByBranchCode(branchCode);
     }
 }
