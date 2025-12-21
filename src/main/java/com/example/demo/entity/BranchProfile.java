@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(
-    name = "branch_profile",
+    name = "branch_profiles",
     uniqueConstraints = @UniqueConstraint(columnNames = "branchCode")
 )
 public class BranchProfile {
@@ -14,24 +14,32 @@ public class BranchProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
     private String branchCode;
 
-    @Column(nullable = false)
     private String branchName;
 
     private String contactEmail;
 
     private LocalDateTime lastSyncAt;
 
-    private Boolean active;
+    private Boolean active = true;
+
+    public BranchProfile() {}
+
+    public BranchProfile(Long id, String branchCode, String branchName,
+                         String contactEmail, LocalDateTime lastSyncAt, Boolean active) {
+        this.id = id;
+        this.branchCode = branchCode;
+        this.branchName = branchName;
+        this.contactEmail = contactEmail;
+        this.lastSyncAt = lastSyncAt;
+        this.active = active;
+    }
 
     @PrePersist
-    public void initKey() {
+    public void onCreate() {
         this.lastSyncAt = LocalDateTime.now();
-        if (this.active == null) {
-            this.active = true;
-        }
+        if (active == null) active = true;
     }
 
     public Long getId() {
@@ -82,5 +90,5 @@ public class BranchProfile {
         this.active = active;
     }
 
-    
+
 }
