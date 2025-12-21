@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.entity.HarmonizedCalendar;
@@ -20,7 +21,6 @@ public class HarmonizedCalendarController {
         this.service = service;
     }
 
-   
     @PostMapping("/generate")
     public HarmonizedCalendar generateCalendar(
             @RequestParam String title,
@@ -29,7 +29,6 @@ public class HarmonizedCalendarController {
         return service.generateHarmonizedCalendar(title, generatedBy);
     }
 
-    
     @GetMapping("/{id}")
     public HarmonizedCalendar getCalendarById(
             @PathVariable Long id) {
@@ -37,17 +36,20 @@ public class HarmonizedCalendarController {
         return service.getCalendarById(id);
     }
 
-  
     @GetMapping
     public List<HarmonizedCalendar> getAllCalendars() {
         return service.getAllCalendars();
     }
 
-   
     @GetMapping("/range")
     public List<HarmonizedCalendar> getCalendarsWithinRange(
-            @RequestParam LocalDate start,
-            @RequestParam LocalDate end) {
+            @RequestParam
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate start,
+
+            @RequestParam
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate end) {
 
         return service.getCalendarsWithinRange(start, end);
     }
