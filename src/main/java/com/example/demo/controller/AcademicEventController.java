@@ -1,53 +1,68 @@
-package com.example.demo.controller;
+package com.example.demo.entity;
 
-import java.util.List;
+import java.time.LocalDate;
+import jakarta.persistence.*;
 
-import org.springframework.web.bind.annotation.*;
+@Entity
+@Table(name = "academic_events")
+public class AcademicEvent {
 
-import com.example.demo.entity.AcademicEvent;
-import com.example.demo.service.AcademicEventService;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-@RestController
-@RequestMapping("/api/events")
-@CrossOrigin
-public class AcademicEventController {
+    private String title;
 
-    private final AcademicEventService academicEventService;
+    private Long branchId;
 
-    public AcademicEventController(AcademicEventService academicEventService) {
-        this.academicEventService = academicEventService;
+    private LocalDate startDate;
+    private LocalDate endDate;
+
+    private String description;
+
+    // getters and setters
+
+    public Long getId() {
+        return id;
     }
 
-    // POST /api/events
-    @PostMapping
-    public AcademicEvent createEvent(@RequestBody AcademicEvent event) {
-        return academicEventService.createEvent(event);
+    public String getTitle() {
+        return title;
     }
 
-    // GET /api/events/{id}
-    @GetMapping("/{id}")
-    public AcademicEvent getEventById(@PathVariable Long id) {
-        return academicEventService.getEventById(id);
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    // GET /api/events
-    @GetMapping
-    public List<AcademicEvent> getAllEvents() {
-        return academicEventService.getAllEvents();
+    public Long getBranchId() {
+        return branchId;
     }
 
-    // GET /api/events/branch/{branchId}
-    @GetMapping("/branch/{branchId}")
-    public List<AcademicEvent> getEventsByBranch(
-            @PathVariable Long branchId) {
-        return academicEventService.getEventsByBranch(branchId);
+    public void setBranchId(Long branchId) {
+        this.branchId = branchId;
     }
 
-    // PUT /api/events/{id}
-    @PutMapping("/{id}")
-    public AcademicEvent updateEvent(
-            @PathVariable Long id,
-            @RequestBody AcademicEvent event) {
-        return academicEventService.updateEvent(id, event);
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
