@@ -22,13 +22,12 @@ public class UserAccountController {
         return userAccountService.register(user);
     }
 
-    // GET /auth/users (ADMIN only)
     @GetMapping("/users")
     public List<UserAccount> getAllUsers() {
         return userAccountService.getAllUsers();
     }
 
-    // GET /auth/users/{id} (ADMIN only)
+    
     @GetMapping("/users/{id}")
     public UserAccount getUserById(@PathVariable Long id) {
         return userAccountService.getUser(id);
