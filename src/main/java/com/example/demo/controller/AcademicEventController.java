@@ -1,41 +1,68 @@
-package com.example.demo.controller;
+package com.example.demo.entity;
 
-import java.util.List;
+import java.time.LocalDate;
+import jakarta.persistence.*;
 
-import org.springframework.web.bind.annotation.*;
+@Entity
+@Table(name = "academic_events")
+public class AcademicEvent {
 
-import com.example.demo.entity.AcademicEvent;
-import com.example.demo.service.AcademicEventService;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-@RestController
-@RequestMapping("/api/events")
-@CrossOrigin
-public class AcademicEventController {
+    private String title;
 
-    private final AcademicEventService service;
+    private Long branchId;
 
-    public AcademicEventController(AcademicEventService service) {
-        this.service = service;
+    private LocalDate startDate;
+    private LocalDate endDate;
+
+    private String description;
+
+    // getters and setters
+
+    public Long getId() {
+        return id;
     }
 
-    @PostMapping
-    public AcademicEvent createEvent(@RequestBody AcademicEvent event) {
-        return service.createEvent(event);
+    public String getTitle() {
+        return title;
     }
 
-    @GetMapping
-    public List<AcademicEvent> getAllEvents() {
-        return service.getAllEvents();
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    @GetMapping("/{id}")
-    public AcademicEvent getEventById(@PathVariable Long id) {
-        return service.getEventById(id);
+    public Long getBranchId() {
+        return branchId;
     }
 
-    @GetMapping("/branch/{branchId}")
-    public List<AcademicEvent> getEventsByBranch(
-            @PathVariable Long branchId) {
-        return service.getEventsByBranch(branchId);
+    public void setBranchId(Long branchId) {
+        this.branchId = branchId;
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
