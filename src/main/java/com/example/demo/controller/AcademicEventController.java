@@ -1,68 +1,41 @@
-package com.example.demo.entity;
+package com.example.demo.controller;
 
-import java.time.LocalDate;
-import jakarta.persistence.*;
+import java.util.List;
 
-@Entity
-@Table(name = "academic_events")
-public class AcademicEvent {
+import org.springframework.web.bind.annotation.*;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+import com.example.demo.entity.AcademicEvent;
+import com.example.demo.service.AcademicEventService;
 
-    private String title;
+@RestController
+@RequestMapping("/api/events")
+@CrossOrigin
+public class AcademicEventController {
 
-    private Long branchId;
+    private final AcademicEventService service;
 
-    private LocalDate startDate;
-    private LocalDate endDate;
-
-    private String description;
-
-    // getters and setters
-
-    public Long getId() {
-        return id;
+    public AcademicEventController(AcademicEventService service) {
+        this.service = service;
     }
 
-    public String getTitle() {
-        return title;
+    @PostMapping
+    public AcademicEvent createEvent(@RequestBody AcademicEvent event) {
+        return service.createEvent(event);
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    @GetMapping
+    public List<AcademicEvent> getAllEvents() {
+        return service.getAllEvents();
     }
 
-    public Long getBranchId() {
-        return branchId;
+    @GetMapping("/{id}")
+    public AcademicEvent getEventById(@PathVariable Long id) {
+        return service.getEventById(id);
     }
 
-    public void setBranchId(Long branchId) {
-        this.branchId = branchId;
-    }
-
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    @GetMapping("/branch/{branchId}")
+    public List<AcademicEvent> getEventsByBranch(
+            @PathVariable Long branchId) {
+        return service.getEventsByBranch(branchId);
     }
 }
