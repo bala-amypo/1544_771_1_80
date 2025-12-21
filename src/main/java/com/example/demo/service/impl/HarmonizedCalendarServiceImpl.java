@@ -27,11 +27,8 @@ public class HarmonizedCalendarServiceImpl
         HarmonizedCalendar calendar = new HarmonizedCalendar();
         calendar.setTitle(title);
         calendar.setGeneratedBy(generatedBy);
-        calendar.setEffectiveFrom(LocalDate.now());
-        calendar.setEffectiveTo(LocalDate.now().plusMonths(6));
-
-        // Placeholder merged events
-        calendar.setEventsJson("[]");
+        calendar.setStartDate(LocalDate.now());
+        calendar.setEndDate(LocalDate.now().plusDays(30));
 
         return repository.save(calendar);
     }
@@ -40,7 +37,7 @@ public class HarmonizedCalendarServiceImpl
     public HarmonizedCalendar getCalendarById(Long id) {
         return repository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException("Calendar not found"));
+                        new RuntimeException("Calendar not found with id: " + id));
     }
 
     @Override
@@ -52,8 +49,11 @@ public class HarmonizedCalendarServiceImpl
     public List<HarmonizedCalendar> getCalendarsWithinRange(
             LocalDate start, LocalDate end) {
 
-        return repository
-                .findByEffectiveFromGreaterThanEqualAndEffectiveToLessThanEqual(
-                        start, end);
+        if (start.isAfter(end)) {
+            throw new IllegalArgumentException(
+                    "Start date cannot be after end date");
+        }
+
+        return repository.findByDateRange(start, end);
     }
 }
