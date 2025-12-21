@@ -1,13 +1,10 @@
 package com.example.demo.entity;
 
-import java.time.LocalDateTime;
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(
-    name = "branch_profile",
-    uniqueConstraints = @UniqueConstraint(columnNames = "branchCode")
-)
+@Table(name = "clash_records")
 public class ClashRecord {
 
     @Id
@@ -15,25 +12,38 @@ public class ClashRecord {
     private Long id;
 
     private Long eventAId;
+
     private Long eventBId;
 
     private String clashType;
+
     private String severity;
 
-    @Column(length = 1000)
     private String details;
 
     private LocalDateTime detectedAt;
 
-    private boolean resolved = false;
+    private Boolean resolved = false;
 
-    public ClashRecord() {
+    public ClashRecord() {}
+
+    public ClashRecord(Long id, Long eventAId, Long eventBId, String clashType,
+                       String severity, String details,
+                       LocalDateTime detectedAt, Boolean resolved) {
+        this.id = id;
+        this.eventAId = eventAId;
+        this.eventBId = eventBId;
+        this.clashType = clashType;
+        this.severity = severity;
+        this.details = details;
+        this.detectedAt = detectedAt;
+        this.resolved = resolved;
     }
 
     @PrePersist
     public void onCreate() {
         this.detectedAt = LocalDateTime.now();
-        this.resolved = false;
+        if (resolved == null) resolved = false;
     }
 
     public Long getId() {
@@ -64,7 +74,7 @@ public class ClashRecord {
         return detectedAt;
     }
 
-    public boolean isResolved() {
+    public Boolean getResolved() {
         return resolved;
     }
 
@@ -96,8 +106,9 @@ public class ClashRecord {
         this.detectedAt = detectedAt;
     }
 
-    public void setResolved(boolean resolved) {
+    public void setResolved(Boolean resolved) {
         this.resolved = resolved;
     }
 
+  
 }
