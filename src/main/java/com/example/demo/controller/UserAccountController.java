@@ -1,44 +1,36 @@
-package com.example.demo.service.impl;
+package com.example.demo.controller;
 
 import java.util.List;
-import org.springframework.stereotype.Service;
-import jakarta.validation.ValidationException;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.entity.UserAccount;
-import com.example.demo.repository.UserAccountRepository;
 import com.example.demo.service.UserAccountService;
 
-@Service
-public class UserAccountServiceImpl implements UserAccountService {
+@RestController
+@RequestMapping("/auth")
+public class UserAccountController {
 
-    private final UserAccountRepository userAccountRepository;
+    private final UserAccountService userAccountService;
 
-    public UserAccountServiceImpl(UserAccountRepository userAccountRepository) {
-        this.userAccountRepository = userAccountRepository;
+    public UserAccountController(UserAccountService userAccountService) {
+        this.userAccountService = userAccountService;
     }
 
-    @Override
-    public UserAccount register(UserAccount user) {
-        if (userAccountRepository.existsByEmail(user.getEmail())) {
-            throw new ValidationException("Email already exists");
-        }
-        return userAccountRepository.save(user);
+    // POST /auth/register
+    @PostMapping("/register")
+    public UserAccount register(@RequestBody UserAccount user) {
+        return userAccountService.register(user);
     }
 
-    @Override
-    public UserAccount getUser(Long id) {
-        return userAccountRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-    }
-
-    @Override
+    // GET /auth/users (ADMIN only)
+    @GetMapping("/users")
     public List<UserAccount> getAllUsers() {
-        return userAccountRepository.findAll();
+        return userAccountService.getAllUsers();
     }
 
-    @Override
-    public UserAccount findByEmail(String email) {
-        return userAccountRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    // GET /auth/users/{id} (ADMIN only)
+    @GetMapping("/users/{id}")
+    public UserAccount getUserById(@PathVariable Long id) {
+        return userAccountService.getUser(id);
     }
 }
