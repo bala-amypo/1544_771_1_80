@@ -4,7 +4,7 @@ import org.springframework.security.core.userdetails.*;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
+public class CustomUserDetailsService implements CustomerDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username)
