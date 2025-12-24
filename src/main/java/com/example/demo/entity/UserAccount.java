@@ -20,7 +20,7 @@ public class UserAccount {
         return id;
     }
 
-    public void setId(Long id) {   // REQUIRED BY TEST
+    public void setId(Long id) {   
         this.id = id;
     }
 
