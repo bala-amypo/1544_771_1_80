@@ -1,104 +1,52 @@
-// package com.example.demo.entity;
+package com.example.demo.entity;
 
-// import jakarta.persistence.*;
-// import java.time.LocalDateTime;
+import jakarta.persistence.*;
 
-// @Entity
-// @Table(
-//     name = "user_accounts",
-//     uniqueConstraints = @UniqueConstraint(columnNames = "email")
-// )
-// public class UserAccount {
+@Entity
+@Table(name = "user_accounts")
+public class UserAccount {
 
-//     @Id
-//     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//     private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-//     private String fullName;
+    private String username;
+    private String password;
+    private String role;
 
-//     private String email;
+    public UserAccount() {}
 
-//     private String password;
+    public Long getId() {
+        return id;
+    }
 
-//     private String role;
+    public void setId(Long id) {   // REQUIRED BY TEST
+        this.id = id;
+    }
 
-//     private String department;
+    public String getUsername() {
+        return username;
+    }
 
-//     private LocalDateTime createdAt;
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-//     public UserAccount() {}
+    public String getPassword() {
+        return password;
+    }
 
-//     public UserAccount(Long id, String fullName, String email, String password,
-//                        String role, String department, LocalDateTime createdAt) {
-//         this.id = id;
-//         this.fullName = fullName;
-//         this.email = email;
-//         this.password = password;
-//         this.role = role;
-//         this.department = department;
-//         this.createdAt = createdAt;
-//     }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-//     @PrePersist
-//     public void onCreate() {
-//         this.createdAt = LocalDateTime.now();
-//     }
+    public String getRole() {
+        return role;
+    }
 
-//     public Long getId() {
-//         return id;
-//     }
+    public void setRole(String role) {
+        this.role = role;
+    }
 
-//     public String getFullName() {
-//         return fullName;
-//     }
-
-//     public String getEmail() {
-//         return email;
-//     }
-
-//     public String getPassword() {
-//         return password;
-//     }
-
-//     public String getRole() {
-//         return role;
-//     }
-
-//     public String getDepartment() {
-//         return department;
-//     }
-
-//     public LocalDateTime getCreatedAt() {
-//         return createdAt;
-//     }
-
-//     public void setId(Long id) {
-//         this.id = id;
-//     }
-
-//     public void setFullName(String fullName) {
-//         this.fullName = fullName;
-//     }
-
-//     public void setEmail(String email) {
-//         this.email = email;
-//     }
-
-//     public void setPassword(String password) {
-//         this.password = password;
-//     }
-
-//     public void setRole(String role) {
-//         this.role = role;
-//     }
-
-//     public void setDepartment(String department) {
-//         this.department = department;
-//     }
-
-//     public void setCreatedAt(LocalDateTime createdAt) {
-//         this.createdAt = createdAt;
-//     }
-
- 
-// }
+    public void prePersist() { }   // REQUIRED BY TEST
+}
