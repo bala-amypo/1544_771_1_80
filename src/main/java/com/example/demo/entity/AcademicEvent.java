@@ -1,25 +1,86 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.ValidationException;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "academic_events")
 public class AcademicEvent {
+
+    // ========================
+    // Fields
+    // ========================
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String title;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    // Foreign key to BranchProfile
+    private Long branchId;
 
-    // JPA needs no-arg constructor
+    private String title;
+
+    private String eventType;
+
+    private LocalDate startDate;
+
+    private LocalDate endDate;
+
+    private String location;
+
+    @Column(length = 1000)
+    private String description;
+
+    private LocalDateTime submittedAt;
+
     public AcademicEvent() {
     }
+
+    // Parameterized constructor
+    public AcademicEvent(
+            Long id,
+            Long branchId,
+            String title,
+            String eventType,
+            LocalDate startDate,
+            LocalDate endDate,
+            String location,
+            String description,
+            LocalDateTime submittedAt
+    ) {
+        this.id = id;
+        this.branchId = branchId;
+        this.title = title;
+        this.eventType = eventType;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.location = location;
+        this.description = description;
+        this.submittedAt = submittedAt;
+
+        validateDates();
+    }
+
+    
+
+    @PrePersist
+    protected void onCreate() {
+        this.submittedAt = LocalDateTime.now();
+        validateDates();
+    }
+
+   
+
+    private void validateDates() {
+        if (startDate != null && endDate != null && startDate.isAfter(endDate)) {
+            throw new ValidationException("startDate cannot be after endDate");
+        }
+    }
+
+   
 
     public Long getId() {
         return id;
@@ -27,6 +88,14 @@ public class AcademicEvent {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getBranchId() {
+        return branchId;
+    }
+
+    public void setBranchId(Long branchId) {
+        this.branchId = branchId;
     }
 
     public String getTitle() {
@@ -37,19 +106,49 @@ public class AcademicEvent {
         this.title = title;
     }
 
-    public LocalDateTime getStartDate() {
+    public String getEventType() {
+        return eventType;
+    }
+
+    public void setEventType(String eventType) {
+        this.eventType = eventType;
+    }
+
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDateTime startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
+        validateDates();
     }
 
-    public LocalDateTime getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDateTime endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
+        validateDates();
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public LocalDateTime getSubmittedAt() {
+        return submittedAt;
     }
 }
