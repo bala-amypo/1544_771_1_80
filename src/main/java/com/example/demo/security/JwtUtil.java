@@ -18,24 +18,23 @@ public class JwtUtil {
         this.key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     }
 
-    // TEST EXPECTS THIS SIGNATURE
-    public Claims parseToken(String token) {
-        return Jwts.parserBuilder()
+    public JwtTokenWrapper parseToken(String token) {
+        Claims claims = Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+        return new JwtTokenWrapper(claims);
     }
 
-    // TEST EXPECTS THIS
     public Claims getPayload(String token) {
-        return parseToken(token);
+        return parseToken(token).getPayload();
     }
 
-    // TEST EXPECTS THIS
     public Claims getBody(String token) {
-        return parseToken(token);
+        return parseToken(token).getPayload();
     }
+
 
     // TEST EXPECTS THIS EXACT SIGNATURE
     public String generateToken(Map<String, Object> claims, String subject) {
