@@ -25,34 +25,60 @@ public class EventMergeServiceImpl implements EventMergeService {
         this.eventRepository = eventRepository;
     }
 
-    @Override
-    public EventMergeRecord mergeEvents(List<Long> eventIds, String reason) {
+//     @Override
+//     public EventMergeRecord mergeEvents(List<Long> eventIds, String reason) {
 
-        List<AcademicEvent> events = eventIds.stream()
-                .map(id -> eventRepository.findById(id)
-                        .orElseThrow(() -> new ResourceNotFoundException("Event not found")))
-                .collect(Collectors.toList());
+//         List<AcademicEvent> events = eventIds.stream()
+//                 .map(id -> eventRepository.findById(id)
+//                         .orElseThrow(() -> new ResourceNotFoundException("Event not found")))
+//                 .collect(Collectors.toList());
 
-        LocalDate start = events.stream()
-                .map(AcademicEvent::getStartDate)
-                .min(LocalDate::compareTo)
-                .orElse(null);
+//         LocalDate start = events.stream()
+//                 .map(AcademicEvent::getStartDate)
+//                 .min(LocalDate::compareTo)
+//                 .orElse(null);
 
-        LocalDate end = events.stream()
-                .map(AcademicEvent::getEndDate)
-                .max(LocalDate::compareTo)
-                .orElse(null);
+//         LocalDate end = events.stream()
+//                 .map(AcademicEvent::getEndDate)
+//                 .max(LocalDate::compareTo)
+//                 .orElse(null);
+
+//         EventMergeRecord record = new EventMergeRecord();
+//         record.setSourceEventIds(
+//                 eventIds.stream().map(String::valueOf).collect(Collectors.joining(",")));
+//         record.setMergedTitle("Merged Events");
+//         record.setMergedStartDate(start);
+//         record.setMergedEndDate(end);
+//         record.setMergeReason(reason);
+
+//         return mergeRepository.save(record);
+//     }
+ 
+        @Override
+        public EventMergeRecord mergeEvents(List<Long> ids, String reason) {
+
+        List<AcademicEvent> events = eventRepository.findAllById(ids);
+
+        if (events.isEmpty()) {
+                throw new ResourceNotFoundException("No events found");
+        }
+
+        String sourceIds = String.join(",",
+                ids.stream().map(String::valueOf).toList()
+        );
+
+        AcademicEvent first = events.get(0);
 
         EventMergeRecord record = new EventMergeRecord();
-        record.setSourceEventIds(
-                eventIds.stream().map(String::valueOf).collect(Collectors.joining(",")));
+        record.setSourceEventIds(sourceIds);
         record.setMergedTitle("Merged Events");
-        record.setMergedStartDate(start);
-        record.setMergedEndDate(end);
+        record.setMergedStartDate(first.getStartDate());
+        record.setMergedEndDate(first.getEndDate());
         record.setMergeReason(reason);
 
         return mergeRepository.save(record);
-    }
+        }
+
 
     @Override
     public List<EventMergeRecord> getAllMergeRecords() {

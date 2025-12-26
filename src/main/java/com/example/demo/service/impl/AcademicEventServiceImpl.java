@@ -20,17 +20,25 @@ public class AcademicEventServiceImpl implements AcademicEventService {
         this.academicEventRepository = academicEventRepository;
     }
 
+    // @Override
+    // public AcademicEvent createEvent(AcademicEvent event) {
+
+    //     // ✅ Date validation
+    //     if (event.getStartDate() != null && event.getEndDate() != null &&
+    //         event.getStartDate().isAfter(event.getEndDate())) {
+    //         throw new ValidationException("startDate cannot be after endDate");
+    //     }
+
+    //     return academicEventRepository.save(event);
+    // }
     @Override
     public AcademicEvent createEvent(AcademicEvent event) {
-
-        // ✅ Date validation
-        if (event.getStartDate() != null && event.getEndDate() != null &&
-            event.getStartDate().isAfter(event.getEndDate())) {
+        if (event.getStartDate().isAfter(event.getEndDate())) {
             throw new ValidationException("startDate cannot be after endDate");
         }
-
         return academicEventRepository.save(event);
     }
+
 
     @Override
     public List<AcademicEvent> getEventsByBranch(Long branchId) {
