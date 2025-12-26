@@ -37,11 +37,11 @@ public class EventMergeRecord {
         this.mergeReason = mergeReason;
         this.createdAt = createdAt;
     }
+@PrePersist
+public void prePersist() {
+    if (createdAt == null) createdAt = java.time.LocalDateTime.now();
+}
 
-    @PrePersist
-    public void onCreate() {
-        this.createdAt = LocalDateTime.now();
-    }
 
     public Long getId() {
         return id;

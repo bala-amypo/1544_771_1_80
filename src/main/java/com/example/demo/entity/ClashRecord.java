@@ -41,10 +41,11 @@ public class ClashRecord {
     }
 
     @PrePersist
-    public void onCreate() {
-        this.detectedAt = LocalDateTime.now();
+    public void prePersist() {
+        if (detectedAt == null) detectedAt = java.time.LocalDateTime.now();
         if (resolved == null) resolved = false;
     }
+
 
     public Long getId() {
         return id;

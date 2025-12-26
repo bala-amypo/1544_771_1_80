@@ -145,10 +145,10 @@ public class AcademicEvent {
         this.submittedAt = submittedAt;
     }
 
-    
+        
     @PrePersist
     public void prePersist() {
-        this.submittedAt = LocalDateTime.now();
+        this.submittedAt = java.time.LocalDateTime.now();
     }
 
     public Long getId() {

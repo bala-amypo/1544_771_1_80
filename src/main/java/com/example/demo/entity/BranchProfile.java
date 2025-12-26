@@ -36,11 +36,11 @@ public class BranchProfile {
         this.active = active;
     }
 
-    @PrePersist
-    public void onCreate() {
-        this.lastSyncAt = LocalDateTime.now();
-        if (active == null) active = true;
-    }
+@PrePersist
+public void prePersist() {
+    if (lastSyncAt == null) lastSyncAt = java.time.LocalDateTime.now();
+    if (active == null) active = true;
+}
 
     public Long getId() {
         return id;
