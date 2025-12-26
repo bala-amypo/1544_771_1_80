@@ -10,7 +10,7 @@ public class JwtUtil {
     }
 
     public String generateToken(Long userId, String email, String role) {
-        return Jwts.builder()
+        return Jwt.builder()
                 .claim("userId", userId)
                 .claim("email", email)
                 .claim("role", role)
