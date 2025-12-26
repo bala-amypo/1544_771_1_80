@@ -35,10 +35,6 @@ public class JwtUtil {
         );
     }
 
-    public Jws<Claims> parseToken(String token) {
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
-    }
-
     public String extractUsername(String token) {
         return parseToken(token).getBody().getSubject();
     }
@@ -56,11 +52,19 @@ public class JwtUtil {
         return extractUsername(token).equals(expectedEmail);
     }
 
-        public Claims getPayload(String token) {
-            return parseToken(token).getBody();
-        }
+public Jws<Claims> parseToken(String token) {
+    return Jwts.parserBuilder()
+            .setSigningKey(key)
+            .build()
+            .parseClaimsJws(token);
+}
 
-        public Claims getBody(String token) {
-            return parseToken(token).getBody();
-        }
+public Claims getPayload(String token) {
+    return parseToken(token).getBody();
+}
+
+public Claims getBody(String token) {
+    return parseToken(token).getBody();
+}
+
 }
