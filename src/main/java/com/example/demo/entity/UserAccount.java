@@ -28,6 +28,12 @@ public class UserAccount {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
+    @PrePersist
+    public void prePersist() {
+        if (this.role == null) this.role = "REVIEWER";
+        if (this.createdAt == null) this.createdAt = LocalDateTime.now();
+    }
+
     // constructors
     public UserAccount() {}
 
