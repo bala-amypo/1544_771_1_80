@@ -1,40 +1,67 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
-public class MergeRecord {
+@Table(name = "event_merge_records")
+public class EventMergeRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate mergedOn;
+    private String sourceBranch;
 
-    private String reason;
+    private String targetBranch;
+
+    private String eventName;
+
+    private LocalDateTime mergedAt;
+
+    public EventMergeRecord() {
+    }
+
+    public EventMergeRecord(String sourceBranch, String targetBranch, String eventName) {
+        this.sourceBranch = sourceBranch;
+        this.targetBranch = targetBranch;
+        this.eventName = eventName;
+        this.mergedAt = LocalDateTime.now();
+    }
 
     public Long getId() {
         return id;
     }
 
-    public LocalDate getMergedOn() {
-        return mergedOn;
+    public String getSourceBranch() {
+        return sourceBranch;
     }
 
-    public String getReason() {
-        return reason;
+    public void setSourceBranch(String sourceBranch) {
+        this.sourceBranch = sourceBranch;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public String getTargetBranch() {
+        return targetBranch;
     }
 
-    public void setMergedOn(LocalDate mergedOn) {
-        this.mergedOn = mergedOn;
+    public void setTargetBranch(String targetBranch) {
+        this.targetBranch = targetBranch;
     }
 
-    public void setReason(String reason) {
-        this.reason = reason;
+    public String getEventName() {
+        return eventName;
+    }
+
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
+    }
+
+    public LocalDateTime getMergedAt() {
+        return mergedAt;
+    }
+
+    public void setMergedAt(LocalDateTime mergedAt) {
+        this.mergedAt = mergedAt;
     }
 }
