@@ -1,101 +1,55 @@
-// package com.example.demo.security;
-
-// import java.security.Key;
-// import java.util.Date;
-
-// import jakarta.annotation.PostConstruct;
-
-// import org.springframework.stereotype.Component;
-
-// import io.jsonwebtoken.Claims;
-// import io.jsonwebtoken.Jwts;
-// import io.jsonwebtoken.SignatureAlgorithm;
-// import io.jsonwebtoken.security.Keys;
-
-// @Component
-// public class JwtUtil {
-
-//     private Key key;
-
-//     @PostConstruct
-//     public void init() {
-//         key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-//     }
-
-//     public String generateToken(String username, String role) {
-//         return Jwts.builder()
-//                 .setSubject(username)
-//                 .claim("role", role)
-//                 .setIssuedAt(new Date())
-//                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
-//                 .signWith(key)
-//                 .compact();
-//     }
-
-//     public Claims extractClaims(String token) {
-//         return Jwts.parserBuilder()
-//                 .setSigningKey(key)
-//                 .build()
-//                 .parseClaimsJws(token)
-//                 .getBody();
-//     }
-// }
 package com.example.demo.security;
 
+import com.example.demo.entity.UserAccount;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
 import java.util.Map;
 
+@Component
 public class JwtUtil {
 
-    private Key key;
-    private final long expirationMillis = 1000 * 60 * 60;
+    private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    private final long EXPIRATION_TIME = 1000 * 60 * 60; // 1 hour
 
-    public void initKey() {
-        this.key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    }
-
-    public String generateToken(Map<String, Object> claims, String subject) {
+    public String generateTokenForUser(UserAccount user) {
         return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(subject)
+                .setClaims(Map.of(
+                        "userId", user.getId(),
+                        "role", user.getRole()
+                ))
+                .setSubject(user.getEmail())
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + expirationMillis))
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(key)
                 .compact();
     }
 
-    public String generateTokenForUser(com.example.demo.entity.UserAccount user) {
-        return generateToken(
-                Map.of(
-                        "userId", user.getId(),
-                        "email", user.getEmail(),
-                        "role", user.getRole()
-                ),
-                user.getEmail()
-        );
-    }
-
-    public Jws<Claims> parseToken(String token) {
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+    public Claims extractClaims(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     public String extractUsername(String token) {
-        return parseToken(token).getBody().getSubject();
+        return extractClaims(token).getSubject();
     }
 
     public String extractRole(String token) {
-        return (String) parseToken(token).getBody().get("role");
+        return (String) extractClaims(token).get("role");
     }
 
     public Long extractUserId(String token) {
-        return ((Number) parseToken(token).getBody().get("userId")).longValue();
+        return ((Number) extractClaims(token).get("userId")).longValue();
     }
 
     public boolean isTokenValid(String token, String username) {
-        return extractUsername(token).equals(username);
+        return extractUsername(token).equals(username)
+                && extractClaims(token).getExpiration().after(new Date());
     }
 }
