@@ -10,24 +10,18 @@ import java.util.Map;
 
 public class JwtUtil {
 
-    private SecretKey secretKey;
-    private long expirationMillis = 1000 * 60 * 60;
+    private final SecretKey secretKey;
+    private final long expirationMillis = 1000 * 60 * 60;
 
     public JwtUtil() {
         this.secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     }
 
-    public JwtUtil(String secret, long expirationMillis) {
-        this.secretKey = Keys.hmacShaKeyFor(secret.getBytes());
-        this.expirationMillis = expirationMillis;
-    }
-
-    /* ================= TOKEN ================= */
-
-    public String generateToken(Map<String, Object> claims, String subject) {
+    public String generateTokenForUser(UserAccount user) {
         return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(subject)
+                .claim("userId", user.getId())
+                .claim("role", user.getRole())
+                .setSubject(user.getEmail())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expirationMillis))
                 .signWith(secretKey)
@@ -41,7 +35,7 @@ public class JwtUtil {
                 .parseClaimsJws(token);
     }
 
-    // ✅ REQUIRED FOR TESTS (getPayload compatibility)
+    // for tests
     public Claims getPayload(String token) {
         return parseToken(token).getBody();
     }
