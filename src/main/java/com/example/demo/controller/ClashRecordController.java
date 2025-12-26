@@ -1,52 +1,43 @@
 package com.example.demo.controller;
 
-import java.util.List;
-
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.example.demo.entity.ClashRecord;
 import com.example.demo.service.ClashDetectionService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/clashes")
-@CrossOrigin
 public class ClashRecordController {
 
-    private final ClashDetectionService service;
+    private final ClashDetectionService clashDetectionService;
 
-    public ClashRecordController(ClashDetectionService service) {
-        this.service = service;
+    public ClashRecordController(ClashDetectionService clashDetectionService) {
+        this.clashDetectionService = clashDetectionService;
     }
 
     @PostMapping
-    public ClashRecord logClash(@RequestBody ClashRecord clash) {
-        return service.logClash(clash);
+    public ClashRecord log(@RequestBody ClashRecord clash) {
+        return clashDetectionService.logClash(clash);
     }
 
     @PutMapping("/{id}/resolve")
     public ClashRecord resolve(@PathVariable Long id) {
-        return service.resolveClash(id);
+        return clashDetectionService.resolveClash(id);
     }
 
     @GetMapping("/event/{eventId}")
     public List<ClashRecord> getByEvent(@PathVariable Long eventId) {
-        return service.getClashesForEvent(eventId);
+        return clashDetectionService.getClashesForEvent(eventId);
     }
 
     @GetMapping("/unresolved")
     public List<ClashRecord> getUnresolved() {
-        return service.getUnresolvedClashes();
+        return clashDetectionService.getUnresolvedClashes();
     }
 
     @GetMapping
     public List<ClashRecord> getAll() {
-        return service.getAllClashes();
+        return clashDetectionService.getAllClashes();
     }
 }
