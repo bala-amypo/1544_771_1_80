@@ -32,4 +32,16 @@ public class EventMergeServiceImpl implements EventMergeService {
     public List<EventMergeRecord> getMergeRecordsByDate(LocalDate from, LocalDate to) {
         return repository.findByMergeDateBetween(from, to);
     }
+
+    // ✅ REQUIRED METHOD (Controller expects this)
+    @Override
+    public EventMergeRecord mergeEvents(List<Long> eventIds, Long targetEventId, String reason) {
+
+        EventMergeRecord record = new EventMergeRecord();
+        record.setSourceEvent(eventIds.toString());
+        record.setMergedEvent("Merged into event ID: " + targetEventId);
+        record.setMergeDate(LocalDate.now());
+
+        return repository.save(record);
+    }
 }
