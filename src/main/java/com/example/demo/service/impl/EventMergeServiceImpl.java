@@ -1,24 +1,40 @@
-@Override
-public EventMergeRecord mergeEvents(List<Long> ids, String reason) {
+package com.example.demo.service.impl;
 
-    List<AcademicEvent> events = academicEventRepository.findAllById(ids);
+import com.example.demo.entity.Event;
+import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.repository.EventRepository;
+import com.example.demo.service.EventMergeService;
+import org.springframework.stereotype.Service;
 
-    if (events.isEmpty()) {
-        throw new ResourceNotFoundException("No events found");
+import java.util.List;
+
+@Service
+public class EventMergeServiceImpl implements EventMergeService {
+
+    private final EventRepository eventRepository;
+
+    public EventMergeServiceImpl(EventRepository eventRepository) {
+        this.eventRepository = eventRepository;
     }
 
-    String sourceIds = String.join(",",
-            ids.stream().map(String::valueOf).toList()
-    );
+    @Override
+    public Event mergeEvents(Long primaryEventId, List<Long> secondaryEventIds) {
 
-    AcademicEvent first = events.get(0);
+        Event primaryEvent = eventRepository.findById(primaryEventId)
+                .orElseThrow(() -> new ResourceNotFoundException("Primary event not found"));
 
-    EventMergeRecord record = new EventMergeRecord();
-    record.setSourceEventIds(sourceIds);
-    record.setMergedTitle("Merged Events");
-    record.setMergedStartDate(first.getStartDate());
-    record.setMergedEndDate(first.getEndDate());
-    record.setMergeReason(reason);
+        List<Event> secondaryEvents = eventRepository.findAllById(secondaryEventIds);
 
-    return eventMergeRecordRepository.save(record);
+        if (secondaryEvents.isEmpty()) {
+            throw new ResourceNotFoundException("No secondary events found");
+        }
+
+        for (Event event : secondaryEvents) {
+            // Example merge logic
+            primaryEvent.getSessions().addAll(event.getSessions());
+            eventRepository.delete(event);
+        }
+
+        return eventRepository.save(primaryEvent);
+    }
 }
