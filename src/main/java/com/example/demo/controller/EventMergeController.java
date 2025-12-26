@@ -37,9 +37,12 @@ public class EventMergeController {
         return eventMergeService.getAllMergeRecords();
     }
 
-    @GetMapping("/range")
-    public List<EventMergeRecord> getByDate(@RequestParam LocalDate start,
-                                            @RequestParam LocalDate end) {
-        return eventMergeService.getMergeRecordsByDate(start, end);
-    }
+    @GetMapping("/merge-records")
+public List<EventMergeRecord> getMergeRecords(
+        @RequestParam LocalDate startDate,
+        @RequestParam LocalDate endDate) {
+
+    return eventMergeService.getMergeRecordsByDate(startDate, endDate);
+}
+
 }
