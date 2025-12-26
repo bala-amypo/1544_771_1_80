@@ -6,17 +6,25 @@ import io.jsonwebtoken.security.Keys;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 public class JwtUtil {
 
-    private SecretKey key;
-    private final long expirationMillis = 1000 * 60 * 60; // 1 hour
+    private SecretKey secretKey;
+    private long expirationMillis = 1000 * 60 * 60; // 1 hour
+
+    public JwtUtil() {}
+
+    public JwtUtil(String secret, long expirationMillis) {
+        this.secretKey = Keys.hmacShaKeyFor(secret.getBytes());
+        this.expirationMillis = expirationMillis;
+    }
 
     public void initKey() {
-        this.key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+        this.secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     }
+
+    /* ================== TOKEN GENERATION ================== */
 
     public String generateToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
@@ -24,44 +32,48 @@ public class JwtUtil {
                 .setSubject(subject)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expirationMillis))
-                .signWith(key)
+                .signWith(secretKey)
                 .compact();
     }
 
     public String generateTokenForUser(UserAccount user) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("userId", user.getId());
-        claims.put("email", user.getEmail());
-        claims.put("role", user.getRole());
-
-        return generateToken(claims, user.getEmail());
+        return Jwts.builder()
+                .claim("userId", user.getId())
+                .claim("email", user.getEmail())
+                .claim("role", user.getRole())
+                .setSubject(user.getEmail())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + expirationMillis))
+                .signWith(secretKey)
+                .compact();
     }
 
-    public Claims parseToken(String token) {
+    /* ================== TOKEN PARSING ================== */
+
+    // 🔥 THIS METHOD FIXES getPayload() ERROR
+    public Jws<Claims> parseToken(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(key)
+                .setSigningKey(secretKey)
                 .build()
-                .parseClaimsJws(token)
-                .getBody();
+                .parseClaimsJws(token);
     }
 
     public String extractUsername(String token) {
-        return parseToken(token).getSubject();
+        return parseToken(token).getBody().getSubject();
     }
 
     public String extractRole(String token) {
-        return (String) parseToken(token).get("role");
+        return parseToken(token).getBody().get("role", String.class);
     }
 
     public Long extractUserId(String token) {
-        Object id = parseToken(token).get("userId");
-        return id == null ? null : Long.valueOf(id.toString());
+        return parseToken(token).getBody().get("userId", Long.class);
     }
 
     public boolean isTokenValid(String token, String username) {
         try {
             return extractUsername(token).equals(username);
-        } catch (Exception ex) {
+        } catch (Exception e) {
             return false;
         }
     }
