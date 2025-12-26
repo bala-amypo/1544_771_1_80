@@ -1,55 +1,52 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import java.time.LocalDateTime;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "academic_events")
 public class AcademicEvent {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String title;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private String eventType;
+    private String location;
+    private String description;
 
-    // JPA needs no-arg constructor
-    public AcademicEvent() {
+    public AcademicEvent() {}
+
+    public AcademicEvent(String eventType, String location, String description) {
+        this.eventType = eventType;
+        this.location = location;
+        this.description = description;
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public String getEventType() {
+        return eventType;
     }
 
-    public String getTitle() {
-        return title;
+    public void setEventType(String eventType) {
+        this.eventType = eventType;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public String getLocation() {
+        return location;
     }
 
-    public LocalDateTime getStartDate() {
-        return startDate;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
-    public void setStartDate(LocalDateTime startDate) {
-        this.startDate = startDate;
+    public String getDescription() {
+        return description;
     }
 
-    public LocalDateTime getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDateTime endDate) {
-        this.endDate = endDate;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
