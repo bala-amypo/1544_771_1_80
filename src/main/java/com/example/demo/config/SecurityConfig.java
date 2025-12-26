@@ -14,11 +14,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class SecurityConfig {
 
-    @Bean
-    public JwtUtil jwtUtil() {
-        JwtUtil jwtUtil = new JwtUtil();
-        jwtUtil.initKey();
-        return jwtUtil;
+   @Bean
+public JwtUtil jwtUtil() {
+    return new JwtUtil();
+}
+
     }
 
     @Bean

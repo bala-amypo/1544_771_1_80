@@ -7,14 +7,8 @@ import java.util.List;
 
 public interface EventMergeService {
 
-    EventMergeRecord mergeEvents(List<Long> eventIds, String reason);
-
-    EventMergeRecord getMergeRecordById(Long id);
-
-    List<EventMergeRecord> getAllMergeRecords();
-
-   List<EventMergeRecord> records =
-        mergeRepository.findByMergedStartDateBetween(startDate, endDate);
-
-
+    List<EventMergeRecord> getMergeRecordsByDate(
+            LocalDate startDate,
+            LocalDate endDate
+    );
 }
