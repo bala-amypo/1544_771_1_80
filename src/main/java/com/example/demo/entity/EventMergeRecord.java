@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -11,57 +12,58 @@ public class EventMergeRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String sourceBranch;
+    private String sourceEventIds;
 
-    private String targetBranch;
+    private String mergedTitle;
 
-    private String eventName;
+    private LocalDate mergedStartDate;
 
-    private LocalDateTime mergedAt;
+    private LocalDate mergedEndDate;
+
+    private String mergeReason;
+
+    private LocalDateTime createdAt;
 
     public EventMergeRecord() {
     }
 
-    public EventMergeRecord(String sourceBranch, String targetBranch, String eventName) {
-        this.sourceBranch = sourceBranch;
-        this.targetBranch = targetBranch;
-        this.eventName = eventName;
-        this.mergedAt = LocalDateTime.now();
+    public EventMergeRecord(Long id, String sourceEventIds, String mergedTitle,
+                            LocalDate mergedStartDate, LocalDate mergedEndDate,
+                            String mergeReason, LocalDateTime createdAt) {
+        this.id = id;
+        this.sourceEventIds = sourceEventIds;
+        this.mergedTitle = mergedTitle;
+        this.mergedStartDate = mergedStartDate;
+        this.mergedEndDate = mergedEndDate;
+        this.mergeReason = mergeReason;
+        this.createdAt = createdAt;
     }
 
-    public Long getId() {
-        return id;
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
     }
 
-    public String getSourceBranch() {
-        return sourceBranch;
-    }
+    // Getters & Setters
 
-    public void setSourceBranch(String sourceBranch) {
-        this.sourceBranch = sourceBranch;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public String getTargetBranch() {
-        return targetBranch;
-    }
+    public String getSourceEventIds() { return sourceEventIds; }
+    public void setSourceEventIds(String sourceEventIds) { this.sourceEventIds = sourceEventIds; }
 
-    public void setTargetBranch(String targetBranch) {
-        this.targetBranch = targetBranch;
-    }
+    public String getMergedTitle() { return mergedTitle; }
+    public void setMergedTitle(String mergedTitle) { this.mergedTitle = mergedTitle; }
 
-    public String getEventName() {
-        return eventName;
-    }
+    public LocalDate getMergedStartDate() { return mergedStartDate; }
+    public void setMergedStartDate(LocalDate mergedStartDate) { this.mergedStartDate = mergedStartDate; }
 
-    public void setEventName(String eventName) {
-        this.eventName = eventName;
-    }
+    public LocalDate getMergedEndDate() { return mergedEndDate; }
+    public void setMergedEndDate(LocalDate mergedEndDate) { this.mergedEndDate = mergedEndDate; }
 
-    public LocalDateTime getMergedAt() {
-        return mergedAt;
-    }
+    public String getMergeReason() { return mergeReason; }
+    public void setMergeReason(String mergeReason) { this.mergeReason = mergeReason; }
 
-    public void setMergedAt(LocalDateTime mergedAt) {
-        this.mergedAt = mergedAt;
-    }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }
