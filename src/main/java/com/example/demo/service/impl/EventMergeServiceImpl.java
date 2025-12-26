@@ -3,20 +3,22 @@ package com.example.demo.service.impl;
 import com.example.demo.entity.AcademicEvent;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-
 @Service
 public class EventMergeServiceImpl {
 
-    public boolean isOverlapping(AcademicEvent first, AcademicEvent second) {
+    public AcademicEvent mergeEvents(AcademicEvent first, AcademicEvent second) {
 
-        LocalDateTime firstStart = first.getStartDate(); // ✅ now exists
-        LocalDateTime firstEnd   = first.getEndDate();   // ✅ now exists
+        AcademicEvent merged = new AcademicEvent();
 
-        LocalDateTime secondStart = second.getStartDate();
-        LocalDateTime secondEnd   = second.getEndDate();
+        merged.setTitle(first.getTitle());
+        merged.setEventType(first.getEventType());
+        merged.setLocation(first.getLocation());
+        merged.setDescription(first.getDescription());
+        merged.setBranchId(first.getBranchId());
 
-        return !(firstEnd.isBefore(secondStart) ||
-                 secondEnd.isBefore(firstStart));
+        merged.setStartDate(first.getStartDate());
+        merged.setEndDate(second.getEndDate());
+
+        return merged;
     }
 }
