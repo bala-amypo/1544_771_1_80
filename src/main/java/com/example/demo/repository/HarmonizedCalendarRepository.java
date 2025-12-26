@@ -10,7 +10,7 @@ public interface HarmonizedCalendarRepository
         extends JpaRepository<HarmonizedCalendar, Long> {
 
     List<HarmonizedCalendar>
-    findByEffectiveFromLessThanEqualAndEffectiveToGreaterThanEqual(
+    findByEffectiveFromGreaterThanEqualAndEffectiveToLessThanEqual(
             LocalDate startDate,
             LocalDate endDate
     );
