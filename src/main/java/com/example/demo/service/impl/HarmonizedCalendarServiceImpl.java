@@ -9,16 +9,18 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Service
-public class HarmonizedCalendarServiceImpl implements HarmonizedCalendarService {
+public class HarmonizedCalendarServiceImpl
+        implements HarmonizedCalendarService {
 
     private final HarmonizedCalendarRepository repository;
 
-    public HarmonizedCalendarServiceImpl(HarmonizedCalendarRepository repository) {
+    public HarmonizedCalendarServiceImpl(
+            HarmonizedCalendarRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public List<HarmonizedCalendar> getHarmonizedCalendars(
+    public List<HarmonizedCalendar> getCalendarsWithinRange(
             LocalDate startDate,
             LocalDate endDate) {
 
