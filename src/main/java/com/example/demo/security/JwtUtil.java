@@ -7,38 +7,53 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
-import javax.crypto.SecretKey;
+import java.security.Key;
 import java.util.Date;
 
 @Component
 public class JwtUtil {
 
-    private final SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    private final long EXPIRATION_TIME = 1000 * 60 * 60; // 1 hour
+    private final Key key;
+    private final long expirationTime = 1000 * 60 * 60; // 1 hour
 
-    /* ========== TOKEN GENERATION ========== */
+    public JwtUtil() {
+        this.key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    }
 
     public String generateTokenForUser(UserAccount user) {
         return Jwts.builder()
                 .setSubject(user.getEmail())
+                .claim("userId", user.getId())
                 .claim("role", user.getRole())
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(secretKey)
+                .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
+                .signWith(key)
                 .compact();
     }
 
-    /* ========== TOKEN PARSING ========== */
-
-    public Claims getPayload(String token) {
+    public Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(secretKey)
+                .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
     }
 
-    public String extractUsername(String token) {
-        return getPayload(token).getSubject();
+    public String extractEmail(String token) {
+        return extractAllClaims(token).getSubject();
+    }
+
+    public String extractRole(String token) {
+        return (String) extractAllClaims(token).get("role");
+    }
+
+    public Long extractUserId(String token) {
+        Object value = extractAllClaims(token).get("userId");
+        return value == null ? null : ((Number) value).longValue();
+    }
+
+    public boolean isTokenValid(String token, String email) {
+        return extractEmail(token).equals(email)
+                && extractAllClaims(token).getExpiration().after(new Date());
     }
 }
