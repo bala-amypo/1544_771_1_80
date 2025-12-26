@@ -1,7 +1,10 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.*;
-import java.time.LocalDate;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import java.time.LocalDateTime;
 
 @Entity
 public class AcademicEvent {
@@ -11,15 +14,12 @@ public class AcademicEvent {
     private Long id;
 
     private String title;
-    private String eventType;
-    private String location;
-    private String description;
-    private String branchId;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 
-    private LocalDate startDate;
-    private LocalDate endDate;
-
-    // ===== GETTERS & SETTERS =====
+    // JPA needs no-arg constructor
+    public AcademicEvent() {
+    }
 
     public Long getId() {
         return id;
@@ -37,20 +37,19 @@ public class AcademicEvent {
         this.title = title;
     }
 
-    public String getEventType() {
-        return eventType;
+    public LocalDateTime getStartDate() {
+        return startDate;
     }
 
-    public void setEventType(String eventType) {
-        this.eventType = eventType;
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
     }
 
-    public String getLocation() {
-        return location;
+    public LocalDateTime getEndDate() {
+        return endDate;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
     }
-
-    public String
+}
