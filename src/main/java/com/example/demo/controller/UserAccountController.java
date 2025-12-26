@@ -1,20 +1,69 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.LoginRequest;
+import com.example.demo.dto.RegisterRequest;
+import com.example.demo.entity.UserAccount;
 import com.example.demo.security.JwtUtil;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.example.demo.service.UserAccountService;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
 public class UserAccountController {
 
+    private final UserAccountService userAccountService;
     private final JwtUtil jwtUtil;
+    private final PasswordEncoder passwordEncoder;
 
-    // ✅ Constructor injection (IMPORTANT)
-    public UserAccountController(JwtUtil jwtUtil) {
+    public UserAccountController(UserAccountService userAccountService,
+                                 JwtUtil jwtUtil,
+                                 PasswordEncoder passwordEncoder) {
+        this.userAccountService = userAccountService;
         this.jwtUtil = jwtUtil;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    // example usage
-    // String token = jwtUtil.generateToken(email);
+    @PostMapping("/register")
+    public UserAccount register(@RequestBody RegisterRequest request) {
+        UserAccount user = new UserAccount(
+                null,
+                request.getName(),
+                request.getEmail(),
+                request.getPassword(),
+                request.getRole(),
+                request.getDepartment(),
+                null
+        );
+        return userAccountService.register(user);
+    }
+
+    @PostMapping("/login")
+    public Map<String, Object> login(@RequestBody LoginRequest request) {
+        UserAccount user = userAccountService.findByEmail(request.getEmail());
+
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new RuntimeException("Invalid credentials");
+        }
+
+        String token = jwtUtil.generateTokenForUser(user);
+
+        return Map.of(
+                "token", token,
+                "user", user
+        );
+    }
+
+    @GetMapping("/users")
+    public List<UserAccount> getAllUsers() {
+        return userAccountService.getAllUsers();
+    }
+
+    @GetMapping("/users/{id}")
+    public UserAccount getUser(@PathVariable Long id) {
+        return userAccountService.getUser(id);
+    }
 }
