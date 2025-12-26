@@ -4,8 +4,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "event_merge_records")
-public class EventMergeRecord {
+public class MergeRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,7 +14,6 @@ public class EventMergeRecord {
 
     private String reason;
 
-    // ===== GETTERS =====
     public Long getId() {
         return id;
     }
@@ -28,7 +26,6 @@ public class EventMergeRecord {
         return reason;
     }
 
-    // ===== SETTERS =====
     public void setId(Long id) {
         this.id = id;
     }
