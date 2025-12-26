@@ -1,26 +1,24 @@
 package com.example.demo.security;
 
-import org.springframework.stereotype.Component;
-import java.util.Map;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.web.filter.OncePerRequestFilter;
 
-@Component
-public class JwtUtil {
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    public void initKey() {}
+    private final JwtUtil jwtUtil;
 
-    public String generateToken(Map<String, Object> claims, String subject) {
-        return "dummy-token";
+    public JwtAuthenticationFilter(JwtUtil jwtUtil) {
+        this.jwtUtil = jwtUtil;
     }
 
-    public String extractUsername(String token) {
-        return "test@example.com";
-    }
+    @Override
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain) throws java.io.IOException, jakarta.servlet.ServletException {
 
-    public String extractRole(String token) {
-        return "ROLE_REVIEWER";
-    }
-
-    public String parseToken(String token) {
-        return extractUsername(token);
+        filterChain.doFilter(request, response);
     }
 }
