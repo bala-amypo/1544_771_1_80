@@ -10,43 +10,30 @@ public class BranchProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String branchCode;
     private String branchName;
     private String location;
-    private String contactEmail;
+    private boolean active = true;
 
     private LocalDateTime lastSyncAt;
-    private Boolean active;
 
     public BranchProfile() {}
 
-    public BranchProfile(Long id, String branchName, String location, String contactEmail) {
-        this.id = id;
-        this.branchName = branchName;
-        this.location = location;
-        this.contactEmail = contactEmail;
-    }
-
-    public BranchProfile(Long id, String branchName, String location, String contactEmail,
-                         LocalDateTime lastSyncAt, Boolean active) {
-        this.id = id;
-        this.branchName = branchName;
-        this.location = location;
-        this.contactEmail = contactEmail;
-        this.lastSyncAt = lastSyncAt;
-        this.active = active;
-    }
-
     @PrePersist
     public void prePersist() {
-        this.lastSyncAt = LocalDateTime.now();
-        if (active == null) active = true;
+        lastSyncAt = LocalDateTime.now();
     }
 
-    /* getters & setters */
-
+    // ✅ REQUIRED setters/getters
+    public void setId(Long id) { this.id = id; }
     public Long getId() { return id; }
-    public Boolean getActive() { return active; }
-    public LocalDateTime getLastSyncAt() { return lastSyncAt; }
 
-    public void setContactEmail(String contactEmail) { this.contactEmail = contactEmail; }
+    public String getBranchCode() { return branchCode; }
+    public void setBranchCode(String branchCode) { this.branchCode = branchCode; }
+
+    public void setBranchName(String branchName) { this.branchName = branchName; }
+    public String getBranchName() { return branchName; }
+
+    public boolean isActive() { return active; }
+    public void setActive(boolean active) { this.active = active; }
 }
