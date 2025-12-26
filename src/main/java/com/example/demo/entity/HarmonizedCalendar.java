@@ -41,9 +41,10 @@ public class HarmonizedCalendar {
     }
 
     @PrePersist
-    public void onCreate() {
-        this.generatedAt = LocalDateTime.now();
+    public void prePersist() {
+        if (generatedAt == null) generatedAt = java.time.LocalDateTime.now();
     }
+
 
     public Long getId() {
         return id;
