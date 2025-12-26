@@ -2,6 +2,7 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "event_merge_records")
@@ -11,44 +12,95 @@ public class EventMergeRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String sourceEvent;
-    private String mergedEvent;
-    private LocalDate mergeDate;
+    @Column(nullable = false)
+    private String sourceEventIds;
+
+    @Column(nullable = false)
+    private String mergedTitle;
+
+    @Column(nullable = false)
+    private LocalDate mergedStartDate;
+
+    @Column(nullable = false)
+    private LocalDate mergedEndDate;
+
+    @Column(nullable = false)
+    private String mergeReason;
+
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
 
     public EventMergeRecord() {
     }
 
-    public EventMergeRecord(String sourceEvent, String mergedEvent, LocalDate mergeDate) {
-        this.sourceEvent = sourceEvent;
-        this.mergedEvent = mergedEvent;
-        this.mergeDate = mergeDate;
+    public EventMergeRecord(Long id,
+                            String sourceEventIds,
+                            String mergedTitle,
+                            LocalDate mergedStartDate,
+                            LocalDate mergedEndDate,
+                            String mergeReason,
+                            LocalDateTime createdAt) {
+        this.id = id;
+        this.sourceEventIds = sourceEventIds;
+        this.mergedTitle = mergedTitle;
+        this.mergedStartDate = mergedStartDate;
+        this.mergedEndDate = mergedEndDate;
+        this.mergeReason = mergeReason;
+        this.createdAt = createdAt;
     }
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
+
+    // Getters and Setters
 
     public Long getId() {
         return id;
     }
 
-    public String getSourceEvent() {
-        return sourceEvent;
+    public String getSourceEventIds() {
+        return sourceEventIds;
     }
 
-    public void setSourceEvent(String sourceEvent) {
-        this.sourceEvent = sourceEvent;
+    public void setSourceEventIds(String sourceEventIds) {
+        this.sourceEventIds = sourceEventIds;
     }
 
-    public String getMergedEvent() {
-        return mergedEvent;
+    public String getMergedTitle() {
+        return mergedTitle;
     }
 
-    public void setMergedEvent(String mergedEvent) {
-        this.mergedEvent = mergedEvent;
+    public void setMergedTitle(String mergedTitle) {
+        this.mergedTitle = mergedTitle;
     }
 
-    public LocalDate getMergeDate() {
-        return mergeDate;
+    public LocalDate getMergedStartDate() {
+        return mergedStartDate;
     }
 
-    public void setMergeDate(LocalDate mergeDate) {
-        this.mergeDate = mergeDate;
+    public void setMergedStartDate(LocalDate mergedStartDate) {
+        this.mergedStartDate = mergedStartDate;
+    }
+
+    public LocalDate getMergedEndDate() {
+        return mergedEndDate;
+    }
+
+    public void setMergedEndDate(LocalDate mergedEndDate) {
+        this.mergedEndDate = mergedEndDate;
+    }
+
+    public String getMergeReason() {
+        return mergeReason;
+    }
+
+    public void setMergeReason(String mergeReason) {
+        this.mergeReason = mergeReason;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 }
