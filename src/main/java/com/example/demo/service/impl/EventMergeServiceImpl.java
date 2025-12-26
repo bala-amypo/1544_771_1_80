@@ -1,6 +1,6 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.MergeRecord;
+import com.example.demo.entity.EventMergeRecord;
 import com.example.demo.service.EventMergeService;
 import org.springframework.stereotype.Service;
 
@@ -12,26 +12,25 @@ import java.util.List;
 public class EventMergeServiceImpl implements EventMergeService {
 
     @Override
-    public MergeRecord mergeEvents(List<Long> eventIds, String reason) {
-        // Dummy implementation for compilation & tests
-        MergeRecord record = new MergeRecord();
+    public EventMergeRecord mergeEvents(List<Long> eventIds, String reason) {
+        EventMergeRecord record = new EventMergeRecord();
         record.setMergedOn(LocalDate.now());
         record.setReason(reason);
         return record;
     }
 
     @Override
-    public List<MergeRecord> getAllMergeRecords() {
+    public List<EventMergeRecord> getAllMergeRecords() {
         return new ArrayList<>();
     }
 
     @Override
-    public MergeRecord getMergeRecordById(Long id) {
-        return new MergeRecord();
+    public EventMergeRecord getMergeRecordById(Long id) {
+        return new EventMergeRecord();
     }
 
     @Override
-    public List<MergeRecord> getMergeRecordsByDate(LocalDate start, LocalDate end) {
+    public List<EventMergeRecord> getMergeRecordsByDate(LocalDate start, LocalDate end) {
         return new ArrayList<>();
     }
 }
