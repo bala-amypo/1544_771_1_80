@@ -33,9 +33,14 @@ public class AcademicEventServiceImpl implements AcademicEventService {
     // }
     @Override
     public AcademicEvent createEvent(AcademicEvent event) {
-        if (event.getStartDate().isAfter(event.getEndDate())) {
+
+        if (event.getStartDate() != null &&
+            event.getEndDate() != null &&
+            event.getStartDate().isAfter(event.getEndDate())) {
+
             throw new ValidationException("startDate cannot be after endDate");
         }
+
         return academicEventRepository.save(event);
     }
 
