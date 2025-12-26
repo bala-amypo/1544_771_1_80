@@ -22,8 +22,9 @@ public class AcademicEvent {
 
     public AcademicEvent() {}
 
-    public AcademicEvent(Long id, String eventName, LocalDate startDate,
-                         LocalDate endDate, BranchProfile branch) {
+    public AcademicEvent(Long id, String eventName,
+                         LocalDate startDate, LocalDate endDate,
+                         BranchProfile branch) {
         this.id = id;
         this.eventName = eventName;
         this.startDate = startDate;
@@ -31,7 +32,6 @@ public class AcademicEvent {
         this.branch = branch;
     }
 
-    // getters and setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
