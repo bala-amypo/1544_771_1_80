@@ -27,6 +27,7 @@ public class JwtUtil {
         return new JwtTokenWrapper(claims);
     }
 
+
     public Claims getPayload(String token) {
         return parseToken(token).getPayload();
     }
