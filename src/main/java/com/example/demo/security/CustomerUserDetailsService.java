@@ -7,11 +7,11 @@ import org.springframework.security.core.userdetails.*;
 
 import java.util.List;
 
-public class CustomUserDetailsService implements UserDetailsService {
+public class CustomerUserDetailsService implements UserDetailsService {
 
     private final UserAccountRepository repo;
 
-    public CustomUserDetailsService(UserAccountRepository repo) {
+    public CustomerUserDetailsService(UserAccountRepository repo) {
         this.repo = repo;
     }
 
