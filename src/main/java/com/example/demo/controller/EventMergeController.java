@@ -1,14 +1,22 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.EventMergeRecord;
-import com.example.demo.service.EventMergeService;
-import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.entity.EventMergeRecord;
+import com.example.demo.service.EventMergeService;
+
 @RestController
-@RequestMapping("/event-merge")
+@RequestMapping("/api/merge-records")
+@CrossOrigin
 public class EventMergeController {
 
     private final EventMergeService service;
@@ -18,15 +26,9 @@ public class EventMergeController {
     }
 
     @PostMapping
-    public EventMergeRecord mergeEvents(
-            @RequestParam List<Long> eventIds,
-            @RequestParam String reason) {
+    public EventMergeRecord mergeEvents(@RequestParam List<Long> eventIds,
+                                        @RequestParam String reason) {
         return service.mergeEvents(eventIds, reason);
-    }
-
-    @GetMapping
-    public List<EventMergeRecord> getAll() {
-        return service.getAllMergeRecords();
     }
 
     @GetMapping("/{id}")
@@ -34,8 +36,13 @@ public class EventMergeController {
         return service.getMergeRecordById(id);
     }
 
-    @GetMapping("/by-date")
-    public List<EventMergeRecord> getByDate(
+    @GetMapping
+    public List<EventMergeRecord> getAll() {
+        return service.getAllMergeRecords();
+    }
+
+    @GetMapping("/range")
+    public List<EventMergeRecord> getByDateRange(
             @RequestParam LocalDate start,
             @RequestParam LocalDate end) {
         return service.getMergeRecordsByDate(start, end);
