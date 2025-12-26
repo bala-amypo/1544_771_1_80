@@ -6,6 +6,8 @@ import com.example.demo.repository.AcademicEventRepository;
 import com.example.demo.service.AcademicEventService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AcademicEventServiceImpl implements AcademicEventService {
 
@@ -18,7 +20,6 @@ public class AcademicEventServiceImpl implements AcademicEventService {
     @Override
     public AcademicEvent createEvent(AcademicEvent event) {
 
-        // ✅ THIS FIXES t19_createAcademicEvent_invalidDates
         if (event.getStartDate() == null || event.getEndDate() == null) {
             throw new ValidationException("Start date and end date are required");
         }
@@ -28,5 +29,10 @@ public class AcademicEventServiceImpl implements AcademicEventService {
         }
 
         return repository.save(event);
+    }
+
+    @Override
+    public List<AcademicEvent> getAllEvents() {
+        return repository.findAll();
     }
 }
