@@ -147,11 +147,9 @@ public class AcademicEvent {
 
     
     @PrePersist
-    public void onCreate() {
+    public void prePersist() {
         this.submittedAt = LocalDateTime.now();
     }
-
-
 
     public Long getId() {
         return id;

@@ -55,4 +55,18 @@ public class JwtUtil {
     public boolean isTokenValid(String token, String expectedEmail) {
         return extractUsername(token).equals(expectedEmail);
     }
+    public Jws<Claims> parseToken(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token);
+    }
+
+        public Claims getPayload(String token) {
+            return parseToken(token).getBody();
+        }
+
+        public Claims getBody(String token) {
+            return parseToken(token).getBody();
+        }
 }
