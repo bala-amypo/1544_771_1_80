@@ -7,5 +7,11 @@ public interface AcademicEventService {
 
     AcademicEvent createEvent(AcademicEvent event);
 
-    List<AcademicEvent> getAllEvents(); // 👈 REQUIRED
+    AcademicEvent updateEvent(Long id, AcademicEvent event);
+
+    AcademicEvent getEventById(Long id);
+
+    List<AcademicEvent> getEventsByBranch(Long branchId);
+
+    List<AcademicEvent> getAllEvents();
 }
