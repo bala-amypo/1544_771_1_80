@@ -10,12 +10,16 @@ public class AcademicEvent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String title;
+    private String eventType;
+    private String location;
+    private String description;
     private String branchId;
 
     private LocalDate startDate;
     private LocalDate endDate;
 
-    // ✅ REQUIRED GETTERS & SETTERS
+    // ===== GETTERS & SETTERS =====
 
     public Long getId() {
         return id;
@@ -25,27 +29,28 @@ public class AcademicEvent {
         this.id = id;
     }
 
-    public String getBranchId() {
-        return branchId;
+    public String getTitle() {
+        return title;
     }
 
-    public void setBranchId(String branchId) {
-        this.branchId = branchId;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public LocalDate getStartDate() {
-        return startDate;
+    public String getEventType() {
+        return eventType;
     }
 
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
+    public void setEventType(String eventType) {
+        this.eventType = eventType;
     }
 
-    public LocalDate getEndDate() {
-        return endDate;
+    public String getLocation() {
+        return location;
     }
 
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
+    public void setLocation(String location) {
+        this.location = location;
     }
-}
+
+    public String
