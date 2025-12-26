@@ -13,9 +13,8 @@ public interface EventMergeService {
 
     List<EventMergeRecord> getAllMergeRecords();
 
-   List<HarmonizedCalendar> calendars =
-        repository.findByEffectiveFromLessThanEqualAndEffectiveToGreaterThanEqual(
-                startDate, endDate
-        );
+   List<EventMergeRecord> records =
+        mergeRepository.findByMergedStartDateBetween(startDate, endDate);
+
 
 }

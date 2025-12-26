@@ -1,17 +1,17 @@
-package com.example.demo.repository;
+package com.example.demo.service;
 
 import com.example.demo.entity.HarmonizedCalendar;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public interface HarmonizedCalendarRepository
-        extends JpaRepository<HarmonizedCalendar, Long> {
+public interface HarmonizedCalendarService {
 
-    List<HarmonizedCalendar>
-    findByEffectiveFromLessThanEqualAndEffectiveToGreaterThanEqual(
-            LocalDate startDate,
-            LocalDate endDate
-    );
+    HarmonizedCalendar generateHarmonizedCalendar(String title, String generatedBy);
+
+    HarmonizedCalendar getCalendarById(Long id);
+
+    List<HarmonizedCalendar> getAllCalendars();
+
+    List<HarmonizedCalendar> getCalendarsWithinRange(LocalDate start, LocalDate end);
 }
