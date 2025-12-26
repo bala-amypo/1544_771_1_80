@@ -1,31 +1,52 @@
 package com.example.demo.security;
 
-import org.springframework.stereotype.Component;
-import java.util.Map;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.web.filter.OncePerRequestFilter;
 
-@Component
-public class JwtUtil {
+import java.io.IOException;
+import java.util.List;
 
-    public void initKey() {
-        // dummy init for test / compile
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
+    private final JwtUtil jwtUtil;
+
+    public JwtAuthenticationFilter(JwtUtil jwtUtil) {
+        this.jwtUtil = jwtUtil;
     }
 
-    public String generateToken(Map<String, Object> claims, String subject) {
-        return "dummy-token";
-    }
+    @Override
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain)
+            throws ServletException, IOException {
 
-    // 🔥 REQUIRED by JwtAuthenticationFilter
-    public String extractUsername(String token) {
-        return "test@example.com";
-    }
+        String header = request.getHeader("Authorization");
 
-    // 🔥 REQUIRED by JwtAuthenticationFilter
-    public String extractRole(String token) {
-        return "ROLE_REVIEWER";
-    }
+        if (header != null && header.startsWith("Bearer ")) {
+            String token = header.substring(7);
 
-    // used by tests
-    public String parseToken(String token) {
-        return extractUsername(token);
+            String username = jwtUtil.extractUsername(token);
+            String role = jwtUtil.extractRole(token);
+
+            UsernamePasswordAuthenticationToken auth =
+                    new UsernamePasswordAuthenticationToken(
+                            username,
+                            null,
+                            List.of(new SimpleGrantedAuthority(role))
+                    );
+
+            auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            SecurityContextHolder.getContext().setAuthentication(auth);
+        }
+
+        filterChain.doFilter(request, response);
     }
 }
