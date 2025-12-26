@@ -15,7 +15,8 @@ public class EventMergeRecord {
     private String mergedEvent;
     private LocalDate mergeDate;
 
-    public EventMergeRecord() {}
+    public EventMergeRecord() {
+    }
 
     public EventMergeRecord(String sourceEvent, String mergedEvent, LocalDate mergeDate) {
         this.sourceEvent = sourceEvent;
@@ -46,3 +47,8 @@ public class EventMergeRecord {
     public LocalDate getMergeDate() {
         return mergeDate;
     }
+
+    public void setMergeDate(LocalDate mergeDate) {
+        this.mergeDate = mergeDate;
+    }
+}
