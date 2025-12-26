@@ -5,11 +5,8 @@ import com.example.demo.dto.RegisterRequest;
 import com.example.demo.entity.UserAccount;
 import com.example.demo.security.JwtUtil;
 import com.example.demo.service.UserAccountService;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -17,53 +14,28 @@ public class UserAccountController {
 
     private final UserAccountService userAccountService;
     private final JwtUtil jwtUtil;
-    private final PasswordEncoder passwordEncoder;
 
-    public UserAccountController(UserAccountService userAccountService,
-                                 JwtUtil jwtUtil,
-                                 PasswordEncoder passwordEncoder) {
+    public UserAccountController(UserAccountService userAccountService, JwtUtil jwtUtil) {
         this.userAccountService = userAccountService;
         this.jwtUtil = jwtUtil;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping("/register")
-    public UserAccount register(@RequestBody RegisterRequest request) {
-        UserAccount user = new UserAccount(
-                null,
-                request.getName(),
-                request.getEmail(),
-                request.getPassword(),
-                request.getRole(),
-                request.getDepartment(),
-                null
-        );
-        return userAccountService.register(user);
+    public ResponseEntity<UserAccount> register(@RequestBody RegisterRequest request) {
+        UserAccount user = new UserAccount();
+        user.setFullName(request.getFullName());
+        user.setEmail(request.getEmail());
+        user.setPassword(request.getPassword());
+        user.setDepartment(request.getDepartment());
+        user.setRole(request.getRole());
+
+        return ResponseEntity.ok(userAccountService.register(user));
     }
 
     @PostMapping("/login")
-    public Map<String, Object> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
         UserAccount user = userAccountService.findByEmail(request.getEmail());
-
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Invalid credentials");
-        }
-
         String token = jwtUtil.generateTokenForUser(user);
-
-        return Map.of(
-                "token", token,
-                "user", user
-        );
-    }
-
-    @GetMapping("/users")
-    public List<UserAccount> getAllUsers() {
-        return userAccountService.getAllUsers();
-    }
-
-    @GetMapping("/users/{id}")
-    public UserAccount getUser(@PathVariable Long id) {
-        return userAccountService.getUser(id);
+        return ResponseEntity.ok(token);
     }
 }
