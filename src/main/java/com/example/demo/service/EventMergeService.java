@@ -1,17 +1,16 @@
-package com.example.demo.service;
+package com.example.demo.repository;
 
 import com.example.demo.entity.EventMergeRecord;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public interface EventMergeService {
+public interface EventMergeRecordRepository
+        extends JpaRepository<EventMergeRecord, Long> {
 
-    EventMergeRecord mergeEvents(List<Long> eventIds, String reason);
-
-    EventMergeRecord getMergeRecordById(Long id);
-
-    List<EventMergeRecord> getAllMergeRecords();
-
-    List<EventMergeRecord> getMergeRecordsByDate(LocalDate start, LocalDate end);
+    List<EventMergeRecord> findByMergedStartDateBetween(
+            LocalDate start,
+            LocalDate end
+    );
 }
