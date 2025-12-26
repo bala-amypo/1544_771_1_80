@@ -1,27 +1,35 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.AcademicEvent;
+import com.example.demo.entity.EventMergeRecord;
+import com.example.demo.repository.EventMergeRecordRepository;
 import com.example.demo.service.EventMergeService;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class EventMergeServiceImpl implements EventMergeService {
 
+    private final EventMergeRecordRepository repository;
+
+    public EventMergeServiceImpl(EventMergeRecordRepository repository) {
+        this.repository = repository;
+    }
+
     @Override
-    public AcademicEvent mergeEvents(AcademicEvent existing, AcademicEvent incoming) {
+    public EventMergeRecord getMergeRecordById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Merge record not found"));
+    }
 
-        if (incoming.getEventType() != null) {
-            existing.setEventType(incoming.getEventType());
-        }
+    @Override
+    public List<EventMergeRecord> getAllMergeRecords() {
+        return repository.findAll();
+    }
 
-        if (incoming.getLocation() != null) {
-            existing.setLocation(incoming.getLocation());
-        }
-
-        if (incoming.getDescription() != null) {
-            existing.setDescription(incoming.getDescription());
-        }
-
-        return existing;
+    @Override
+    public List<EventMergeRecord> getMergeRecordsByDate(LocalDate from, LocalDate to) {
+        return repository.findByMergeDateBetween(from, to);
     }
 }
