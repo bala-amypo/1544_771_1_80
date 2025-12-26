@@ -1,24 +1,24 @@
-package com.example.demo.service.impl;
+@Override
+public EventMergeRecord mergeEvents(List<Long> ids, String reason) {
 
-import com.example.demo.entity.AcademicEvent;
-import org.springframework.stereotype.Service;
+    List<AcademicEvent> events = academicEventRepository.findAllById(ids);
 
-@Service
-public class EventMergeServiceImpl {
-
-    public AcademicEvent mergeEvents(AcademicEvent first, AcademicEvent second) {
-
-        AcademicEvent merged = new AcademicEvent();
-
-        merged.setTitle(first.getTitle());
-        merged.setEventType(first.getEventType());
-        merged.setLocation(first.getLocation());
-        merged.setDescription(first.getDescription());
-        merged.setBranchId(first.getBranchId());
-
-        merged.setStartDate(first.getStartDate());
-        merged.setEndDate(second.getEndDate());
-
-        return merged;
+    if (events.isEmpty()) {
+        throw new ResourceNotFoundException("No events found");
     }
+
+    String sourceIds = String.join(",",
+            ids.stream().map(String::valueOf).toList()
+    );
+
+    AcademicEvent first = events.get(0);
+
+    EventMergeRecord record = new EventMergeRecord();
+    record.setSourceEventIds(sourceIds);
+    record.setMergedTitle("Merged Events");
+    record.setMergedStartDate(first.getStartDate());
+    record.setMergedEndDate(first.getEndDate());
+    record.setMergeReason(reason);
+
+    return eventMergeRecordRepository.save(record);
 }
