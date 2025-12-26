@@ -6,10 +6,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
 @RestController
-@RequestMapping("/api/merge-records")
+@RequestMapping("/api/event-merge")
 public class EventMergeController {
 
     private final EventMergeService eventMergeService;
@@ -18,31 +17,29 @@ public class EventMergeController {
         this.eventMergeService = eventMergeService;
     }
 
-    @PostMapping
-    public EventMergeRecord merge(@RequestBody Map<String, Object> body) {
-        List<Integer> ids = (List<Integer>) body.get("eventIds");
-        String reason = (String) body.get("reason");
+    @PostMapping("/merge")
+    public EventMergeRecord mergeEvents(
+            @RequestBody List<Long> eventIds,
+            @RequestParam String mergedBy) {
 
-        List<Long> eventIds = ids.stream().map(Long::valueOf).toList();
-        return eventMergeService.mergeEvents(eventIds, reason);
+        return eventMergeService.mergeEvents(eventIds, mergedBy);
     }
 
     @GetMapping("/{id}")
-    public EventMergeRecord getById(@PathVariable Long id) {
+    public EventMergeRecord getMergeRecord(@PathVariable Long id) {
         return eventMergeService.getMergeRecordById(id);
     }
 
     @GetMapping
-    public List<EventMergeRecord> getAll() {
+    public List<EventMergeRecord> getAllMergeRecords() {
         return eventMergeService.getAllMergeRecords();
     }
 
-    @GetMapping("/merge-records")
-public List<EventMergeRecord> getMergeRecords(
-        @RequestParam LocalDate startDate,
-        @RequestParam LocalDate endDate) {
+    @GetMapping("/by-date")
+    public List<EventMergeRecord> getMergeRecordsByDate(
+            @RequestParam LocalDate startDate,
+            @RequestParam LocalDate endDate) {
 
-    return eventMergeService.getMergeRecordsByDate(startDate, endDate);
-}
-
+        return eventMergeService.getMergeRecordsByDate(startDate, endDate);
+    }
 }
