@@ -1,52 +1,62 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "academic_events")
 public class AcademicEvent {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String eventType;
-    private String location;
-    private String description;
+    private String eventName;
 
-    public AcademicEvent() {}
+    private LocalDate startDate;
 
-    public AcademicEvent(String eventType, String location, String description) {
-        this.eventType = eventType;
-        this.location = location;
-        this.description = description;
-    }
+    private LocalDate endDate;
 
+    private String branch;
+
+    // ===== GETTERS =====
     public Long getId() {
         return id;
     }
 
-    public String getEventType() {
-        return eventType;
+    public String getEventName() {
+        return eventName;
     }
 
-    public void setEventType(String eventType) {
-        this.eventType = eventType;
+    public LocalDate getStartDate() {
+        return startDate;
     }
 
-    public String getLocation() {
-        return location;
+    public LocalDate getEndDate() {
+        return endDate;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public String getBranch() {
+        return branch;
     }
 
-    public String getDescription() {
-        return description;
+    // ===== SETTERS =====
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    public void setBranch(String branch) {
+        this.branch = branch;
     }
 }
