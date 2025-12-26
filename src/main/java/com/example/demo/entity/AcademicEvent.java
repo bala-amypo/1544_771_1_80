@@ -2,62 +2,48 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "academic_events")
 public class AcademicEvent {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long branchId;
-    private String title;
-    private String eventType;
+    private String eventName;
 
     private LocalDate startDate;
     private LocalDate endDate;
 
-    private String createdBy;
-    private String remarks;
-
-    private LocalDateTime submittedAt;
+    @ManyToOne
+    @JoinColumn(name = "branch_id")
+    private BranchProfile branch;
 
     public AcademicEvent() {}
 
-    public AcademicEvent(Long id, String title, LocalDate startDate,
-                         LocalDate endDate, BranchProfile branchProfile) {
+    public AcademicEvent(Long id, String eventName, LocalDate startDate,
+                         LocalDate endDate, BranchProfile branch) {
         this.id = id;
-        this.title = title;
+        this.eventName = eventName;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.branch = branch;
     }
 
-    // 🔥 REQUIRED BY TEST
-    public AcademicEvent(Long id, Long branchId, String title, String eventType,
-                         LocalDate startDate, LocalDate endDate,
-                         String createdBy, String remarks,
-                         LocalDateTime submittedAt) {
-        this.id = id;
-        this.branchId = branchId;
-        this.title = title;
-        this.eventType = eventType;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.createdBy = createdBy;
-        this.remarks = remarks;
-        this.submittedAt = submittedAt;
-    }
+    // getters and setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    @PrePersist
-    public void prePersist() {
-        this.submittedAt = LocalDateTime.now();
-    }
+    public String getEventName() { return eventName; }
+    public void setEventName(String eventName) { this.eventName = eventName; }
 
-    public Long getBranchId() { return branchId; }
-    public LocalDateTime getSubmittedAt() { return submittedAt; }
+    public LocalDate getStartDate() { return startDate; }
+    public void setStartDate(LocalDate startDate) { this.startDate = startDate; }
 
-    public void setBranchId(Long branchId) { this.branchId = branchId; }
-    public void setTitle(String title) { this.title = title; }
-    public void setEventType(String eventType) { this.eventType = eventType; }
+    public LocalDate getEndDate() { return endDate; }
+    public void setEndDate(LocalDate endDate) { this.endDate = endDate; }
+
+    public BranchProfile getBranch() { return branch; }
+    public void setBranch(BranchProfile branch) { this.branch = branch; }
 }
