@@ -2,6 +2,7 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "academic_events")
@@ -11,32 +12,58 @@ public class AcademicEvent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String eventName;
+    private Long branchId;
+
+    private String title;
+
+    private String eventType;
 
     private LocalDate startDate;
+
     private LocalDate endDate;
 
-    @ManyToOne
-    @JoinColumn(name = "branch_id")
-    private BranchProfile branch;
+    private String location;
 
-    public AcademicEvent() {}
+    private String description;
 
-    public AcademicEvent(Long id, String eventName, LocalDate startDate,
-                         LocalDate endDate, BranchProfile branch) {
-        this.id = id;
-        this.eventName = eventName;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.branch = branch;
+    private LocalDateTime submittedAt;
+
+    public AcademicEvent() {
     }
 
-    // getters and setters
+    public AcademicEvent(Long id, Long branchId, String title,
+                         String eventType, LocalDate startDate,
+                         LocalDate endDate, String location,
+                         String description, LocalDateTime submittedAt) {
+        this.id = id;
+        this.branchId = branchId;
+        this.title = title;
+        this.eventType = eventType;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.location = location;
+        this.description = description;
+        this.submittedAt = submittedAt;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        this.submittedAt = LocalDateTime.now();
+    }
+
+    // Getters & Setters
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public String getEventName() { return eventName; }
-    public void setEventName(String eventName) { this.eventName = eventName; }
+    public Long getBranchId() { return branchId; }
+    public void setBranchId(Long branchId) { this.branchId = branchId; }
+
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
+
+    public String getEventType() { return eventType; }
+    public void setEventType(String eventType) { this.eventType = eventType; }
 
     public LocalDate getStartDate() { return startDate; }
     public void setStartDate(LocalDate startDate) { this.startDate = startDate; }
@@ -44,6 +71,12 @@ public class AcademicEvent {
     public LocalDate getEndDate() { return endDate; }
     public void setEndDate(LocalDate endDate) { this.endDate = endDate; }
 
-    public BranchProfile getBranch() { return branch; }
-    public void setBranch(BranchProfile branch) { this.branch = branch; }
+    public String getLocation() { return location; }
+    public void setLocation(String location) { this.location = location; }
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+
+    public LocalDateTime getSubmittedAt() { return submittedAt; }
+    public void setSubmittedAt(LocalDateTime submittedAt) { this.submittedAt = submittedAt; }
 }
