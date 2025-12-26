@@ -48,14 +48,6 @@ public class UserAccount {
         this.createdAt = createdAt;
     }
 
-    @PrePersist
-    public void prePersist() {
-        if (this.role == null || this.role.isBlank()) {
-            this.role = "REVIEWER";
-        }
-        this.createdAt = LocalDateTime.now();
-    }
-
     // getters & setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
