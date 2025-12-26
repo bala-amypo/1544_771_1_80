@@ -1,50 +1,45 @@
 package com.example.demo.controller;
 
-import java.time.LocalDate;
-import java.util.List;
-
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.example.demo.entity.EventMergeRecord;
 import com.example.demo.service.EventMergeService;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/merge-records")
-@CrossOrigin
 public class EventMergeController {
 
-    private final EventMergeService service;
+    private final EventMergeService eventMergeService;
 
-    public EventMergeController(EventMergeService service) {
-        this.service = service;
+    public EventMergeController(EventMergeService eventMergeService) {
+        this.eventMergeService = eventMergeService;
     }
 
     @PostMapping
-    public EventMergeRecord mergeEvents(@RequestParam List<Long> eventIds,
-                                        @RequestParam String reason) {
-        return service.mergeEvents(eventIds, reason);
+    public EventMergeRecord merge(@RequestBody Map<String, Object> body) {
+        List<Integer> ids = (List<Integer>) body.get("eventIds");
+        String reason = (String) body.get("reason");
+
+        List<Long> eventIds = ids.stream().map(Long::valueOf).toList();
+        return eventMergeService.mergeEvents(eventIds, reason);
     }
 
     @GetMapping("/{id}")
     public EventMergeRecord getById(@PathVariable Long id) {
-        return service.getMergeRecordById(id);
+        return eventMergeService.getMergeRecordById(id);
     }
 
     @GetMapping
     public List<EventMergeRecord> getAll() {
-        return service.getAllMergeRecords();
+        return eventMergeService.getAllMergeRecords();
     }
 
     @GetMapping("/range")
-    public List<EventMergeRecord> getByDateRange(
-            @RequestParam LocalDate start,
-            @RequestParam LocalDate end) {
-        return service.getMergeRecordsByDate(start, end);
+    public List<EventMergeRecord> getByDate(@RequestParam LocalDate start,
+                                            @RequestParam LocalDate end) {
+        return eventMergeService.getMergeRecordsByDate(start, end);
     }
 }
