@@ -1,8 +1,7 @@
 package com.example.demo.repository;
 
-import com.example.demo.entity.HarmonizedCalendar;
+import com.example.demo.entity.ClashRecord;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface HarmonizedCalendarRepository
-        extends JpaRepository<HarmonizedCalendar, Long> {
+public interface ClashRecordRepository extends JpaRepository<ClashRecord, Long> {
 }
