@@ -17,7 +17,9 @@ import com.example.demo.entity.UserAccount;
 import java.util.List;
 
 public interface UserAccountService {
-
+    UserAccount registerUser(UserAccount user);
+    
     UserAccount register(UserAccount user);
     UserAccount getUser(Long id);
+    
 }

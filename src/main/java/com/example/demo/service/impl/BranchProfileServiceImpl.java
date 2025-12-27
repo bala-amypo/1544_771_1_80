@@ -102,4 +102,11 @@ public class BranchProfileServiceImpl implements BranchProfileService {
     public List<BranchProfile> getAllBranches() {
         return repo.findAll();
     }
+
+    @Override
+    public BranchProfile getBranch(Long id) {
+        return repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Branch not found"));
+    }
+
 }

@@ -110,4 +110,10 @@ public class EventMergeServiceImpl implements EventMergeService {
     public List<EventMergeRecord> getMergeRecordsByDate(LocalDate start, LocalDate end) {
         return eventMergeRecordRepository.findByMergedStartDateBetween(start, end);
     }
+
+    @Override
+    public List<EventMergeRecord> getAllMerges() {
+        return mergeRepo.findAll();
+    }
+
 }

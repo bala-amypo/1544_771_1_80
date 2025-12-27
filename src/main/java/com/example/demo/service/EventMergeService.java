@@ -20,4 +20,6 @@ public interface EventMergeService {
 
     EventMergeRecord mergeEvents(List<Long> eventIds, String reason);
     List<EventMergeRecord> getMergeRecordsByDate(LocalDate start, LocalDate end);
+    List<EventMergeRecord> getAllMerges();
+
 }
