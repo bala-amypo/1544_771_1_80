@@ -1,7 +1,6 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "clash_records")
@@ -12,45 +11,17 @@ public class ClashRecord {
     private Long id;
 
     private Long eventAId;
-
     private Long eventBId;
-
     private String clashType;
-
     private String severity;
 
+    @Column(length = 1000)
     private String details;
-
-    private LocalDateTime detectedAt;
-
-    private Boolean resolved;
 
     public ClashRecord() {
     }
 
-    public ClashRecord(Long id, Long eventAId, Long eventBId,
-                       String clashType, String severity,
-                       String details, LocalDateTime detectedAt,
-                       Boolean resolved) {
-        this.id = id;
-        this.eventAId = eventAId;
-        this.eventBId = eventBId;
-        this.clashType = clashType;
-        this.severity = severity;
-        this.details = details;
-        this.detectedAt = detectedAt;
-        this.resolved = resolved;
-    }
-
-    @PrePersist
-    public void prePersist() {
-        this.detectedAt = LocalDateTime.now();
-        if (this.resolved == null) {
-            this.resolved = false;
-        }
-    }
-
-    // Getters and Setters
+    // ---------- GETTERS ----------
 
     public Long getId() {
         return id;
@@ -76,15 +47,29 @@ public class ClashRecord {
         return details;
     }
 
-    public LocalDateTime getDetectedAt() {
-        return detectedAt;
+    // ---------- SETTERS (🔥 MISSING BEFORE) ----------
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public Boolean getResolved() {
-        return resolved;
+    public void setEventAId(Long eventAId) {
+        this.eventAId = eventAId;
     }
 
-    public void setResolved(Boolean resolved) {
-        this.resolved = resolved;
+    public void setEventBId(Long eventBId) {
+        this.eventBId = eventBId;
+    }
+
+    public void setClashType(String clashType) {
+        this.clashType = clashType;
+    }
+
+    public void setSeverity(String severity) {
+        this.severity = severity;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
     }
 }
