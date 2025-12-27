@@ -62,24 +62,28 @@ import java.util.List;
 @Service
 public class HarmonizedCalendarServiceImpl implements HarmonizedCalendarService {
 
-    private final HarmonizedCalendarRepository harmonizedCalendarRepository;
+    private final HarmonizedCalendarRepository repo;
 
     public HarmonizedCalendarServiceImpl(HarmonizedCalendarRepository repo) {
-        this.harmonizedCalendarRepository = repo;
+        this.repo = repo;
     }
 
     @Override
-    public HarmonizedCalendar generateHarmonizedCalendar(String title, String generatedBy) {
+    public HarmonizedCalendar generateCalendar(String title, String user) {
         HarmonizedCalendar cal = new HarmonizedCalendar();
         cal.setTitle(title);
-        cal.setGeneratedBy(generatedBy);
+        cal.setGeneratedBy(user);
         cal.setGeneratedAt(LocalDateTime.now());
-        return harmonizedCalendarRepository.save(cal);
+        return repo.save(cal);
     }
 
     @Override
-    public List<HarmonizedCalendar> getCalendarsWithinRange(LocalDate start, LocalDate end) {
-        return harmonizedCalendarRepository
-                .findByEffectiveFromLessThanEqualAndEffectiveToGreaterThanEqual(start, end);
+    public List<HarmonizedCalendar> getAllCalendars() {
+        return repo.findAll();
+    }
+
+    @Override
+    public HarmonizedCalendar getCalendar(Long id) {
+        return repo.findById(id).orElseThrow();
     }
 }
