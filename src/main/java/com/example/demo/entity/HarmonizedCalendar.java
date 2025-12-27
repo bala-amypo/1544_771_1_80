@@ -40,29 +40,22 @@ public class HarmonizedCalendar {
         this.generatedAt = LocalDateTime.now();
     }
 
-    /* ===== GETTERS ===== */
+    /* ===== GETTERS (existing + added) ===== */
+    public Long getId() { return id; }
+    public String getTitle() { return this.title; }
+    public String getGeneratedBy() { return generatedBy; }
     public LocalDateTime getGeneratedAt() { return generatedAt; }
     public LocalDate getEffectiveFrom() { return effectiveFrom; }
     public LocalDate getEffectiveTo() { return effectiveTo; }
+    public String getEventsJson() { return eventsJson; }
 
-    /* ===== SETTERS ===== */
+    /* ===== SETTERS (existing + added) ===== */
+    public void setId(Long id) { this.id = id; }
     public void setTitle(String title) { this.title = title; }
     public void setGeneratedBy(String generatedBy) { this.generatedBy = generatedBy; }
-    public void setEventsJson(String eventsJson) { this.eventsJson = eventsJson; }
+    public void setGeneratedAt(LocalDateTime t){ this.generatedAt = t; }
+    public void setCreatedAt(LocalDateTime t){ this.generatedAt = t; } // kept as-is
     public void setEffectiveFrom(LocalDate d) { this.effectiveFrom = d; }
     public void setEffectiveTo(LocalDate d) { this.effectiveTo = d; }
-
-    public void setGeneratedAt(LocalDateTime t){ this.generatedAt = t; }
-    public void setCreatedAt(LocalDateTime t){ this.generatedAt = t; }
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public String getEventsJson() { return eventsJson; }
-    public String getGeneratedBy() { return generatedBy; }
-    
-    public String getTitle() {
-    return this.title;
-}
-
-
+    public void setEventsJson(String eventsJson) { this.eventsJson = eventsJson; }
 }
