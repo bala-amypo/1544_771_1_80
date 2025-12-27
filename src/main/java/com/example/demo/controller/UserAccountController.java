@@ -1,50 +1,60 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.AuthResponse;
-import com.example.demo.dto.LoginRequest;
 import com.example.demo.dto.RegisterRequest;
+import com.example.demo.dto.LoginRequest;
+import com.example.demo.dto.AuthResponse;
 import com.example.demo.entity.UserAccount;
-import com.example.demo.repository.UserAccountRepository;
-import com.example.demo.security.CustomUserDetailsService;
+import com.example.demo.service.UserAccountService;
 import com.example.demo.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/users")
 public class UserAccountController {
 
     @Autowired
-    private UserAccountRepository userRepo;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private AuthenticationManager authManager;
+    private UserAccountService userAccountService;
 
     @Autowired
     private JwtUtil jwtUtil;
 
+    // REGISTER
     @PostMapping("/register")
-    public String register(@RequestBody RegisterRequest request) {
+    public ResponseEntity<AuthResponse> registerUser(@RequestBody RegisterRequest request) {
+
+        // Create user entity
         UserAccount user = new UserAccount();
         user.setName(request.name());
         user.setEmail(request.email());
-        user.setPassword(passwordEncoder.encode(request.password()));
-        userRepo.save(user);
-        return "User registered successfully!";
+        user.setPassword(request.password()); // make sure service hashes password
+        user.setRole(request.role());
+        user.setBranch(request.branch());
+
+        // Save user
+        userAccountService.registerUser(user);
+
+        // Generate JWT
+        String token = jwtUtil.generateTokenForUser(user);
+
+        // Return response
+        AuthResponse response = new AuthResponse(token, user.getEmail(), user.getRole());
+        return ResponseEntity.ok(response);
     }
 
+    // LOGIN
     @PostMapping("/login")
-    public AuthResponse login(@RequestBody LoginRequest request) {
-        authManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.email(), request.password())
-        );
-        String token = jwtUtil.generateToken(request.email());
-        return new AuthResponse(token);
+    public ResponseEntity<AuthResponse> loginUser(@RequestBody LoginRequest request) {
+
+        // Authenticate and fetch user
+        UserAccount user = userAccountService.authenticate(request.email(), request.password());
+
+        // Generate JWT
+        String token = jwtUtil.generateTokenForUser(user);
+
+        // Return response
+        AuthResponse response = new AuthResponse(token, user.getEmail(), user.getRole());
+        return ResponseEntity.ok(response);
     }
 }
