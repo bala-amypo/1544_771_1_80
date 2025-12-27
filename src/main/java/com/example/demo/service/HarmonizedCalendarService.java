@@ -1,11 +1,14 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.HarmonizedCalendar;
+
 import java.util.List;
 
 public interface HarmonizedCalendarService {
 
-    HarmonizedCalendar generate(HarmonizedCalendar calendar);
+    HarmonizedCalendar generateCalendar(String title, String generatedBy);
 
-    List<HarmonizedCalendar> getAll();
+    List<HarmonizedCalendar> getAllCalendars();
+
+    HarmonizedCalendar getCalendar(Long id);
 }
