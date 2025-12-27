@@ -19,10 +19,7 @@ public class ClashRecordController {
     public ClashRecordController(ClashDetectionService clashService) {
         this.clashService = clashService;
     }
-    @PostMapping
-    public ResponseEntity<ClashRecord> logClash(@RequestBody ClashRecord clashRecord) {
-        return ResponseEntity.ok(clashService.logClash(clashRecord));
-    }
+    
     @GetMapping
     public ResponseEntity<List<ClashRecord>> detectClashes() {
         return ResponseEntity.ok(clashService.detectClashes());
