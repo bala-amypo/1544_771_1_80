@@ -63,4 +63,14 @@ public class ClashDetectionServiceImpl implements ClashDetectionService {
         clash.setResolved(true);
         return clashRepo.save(clash);
     }
+
+    @Override
+    public List<ClashRecord> getClashesForEvent(Long eventId) {
+        return clashRecordRepository.findByEventAIdOrEventBId(eventId, eventId);
+    }
+    
+    @Override
+    public List<ClashRecord> getUnresolvedClashes() {
+        return clashRecordRepository.findByResolvedFalse();
+    }
 }
