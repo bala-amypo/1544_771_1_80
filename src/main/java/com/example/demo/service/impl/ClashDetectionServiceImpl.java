@@ -102,7 +102,7 @@ public class ClashDetectionServiceImpl implements ClashDetectionService {
     @Override
     public List<ClashRecord> getUnresolvedClashes() {
         return repo.findByResolvedFalse();
-        
+
     }
 
     @Override
@@ -114,7 +114,7 @@ public class ClashDetectionServiceImpl implements ClashDetectionService {
     }
 
 
-
+}
 
 
 // package com.example.demo.service.impl;
@@ -135,11 +135,11 @@ public class ClashDetectionServiceImpl implements ClashDetectionService {
 //         this.clashRepository = clashRepository;
 //     }
 
-    @Override
-    public ClashRecord logClash(ClashRecord clashRecord) {
-        clashRecord.setResolved(false);
-        return clashRepository.save(clashRecord);
-    }
+    // @Override
+    // public ClashRecord logClash(ClashRecord clashRecord) {
+    //     clashRecord.setResolved(false);
+    //     return clashRepository.save(clashRecord);
+    // }
 
 //     @Override
 //     public ClashRecord resolveClash(Long id) {

@@ -30,6 +30,7 @@ public class ClashRecordController {
         return ResponseEntity.ok(clashService.resolveClash(id));
     }
 
+}
 
 
 // package com.example.demo.controller;
@@ -53,11 +54,11 @@ public class ClashRecordController {
 //         this.clashService = clashService;
 //     }
 
-    // POST /api/clashes – Log a clash
-    @PostMapping
-    public ResponseEntity<ClashRecord> logClash(@RequestBody ClashRecord clashRecord) {
-        return ResponseEntity.ok(clashService.logClash(clashRecord));
-    }
+    // // POST /api/clashes – Log a clash
+    // @PostMapping
+    // public ResponseEntity<ClashRecord> logClash(@RequestBody ClashRecord clashRecord) {
+    //     return ResponseEntity.ok(clashService.logClash(clashRecord));
+    // }
 
 //     // PUT /api/clashes/{id}/resolve – Resolve a clash
 //     @PutMapping("/{id}/resolve")
@@ -82,6 +83,6 @@ public class ClashRecordController {
 //     public ResponseEntity<List<ClashRecord>> getAllClashes() {
 //         return ResponseEntity.ok(clashService.getAllClashes());
 //     }
- }
+// }
 
 
