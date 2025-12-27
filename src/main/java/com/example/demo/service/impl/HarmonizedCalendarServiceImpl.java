@@ -86,13 +86,13 @@ public class HarmonizedCalendarServiceImpl implements HarmonizedCalendarService 
         return repo.findById(id).orElseThrow();
     }
 
-    public HarmonizedCalendar generateHarmonizedCalendar(String title, String generatedBy) {
-    HarmonizedCalendar cal = new HarmonizedCalendar();
-    cal.setTitle(title);
-    cal.setGeneratedBy(generatedBy);
-    cal.prePersist();
-    return harmonizedCalendarRepository.save(cal);
-}
+//     public HarmonizedCalendar generateHarmonizedCalendar(String title, String generatedBy) {
+//     HarmonizedCalendar cal = new HarmonizedCalendar();
+//     cal.setTitle(title);
+//     cal.setGeneratedBy(generatedBy);
+//     cal.prePersist();
+//     return harmonizedCalendarRepository.save(cal);
+// }
 
 public List<HarmonizedCalendar> getCalendarsWithinRange(LocalDate start, LocalDate end) {
     return harmonizedCalendarRepository
