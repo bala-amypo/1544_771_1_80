@@ -57,7 +57,7 @@ public class ClashRecordController {
         return ResponseEntity.ok(clashService.logClash(clashRecord));
     }
 
-    // ✅ PUT /api/clashes/{id}/resolve — Resolve a clash
+    
     @PutMapping("/{id}/resolve")
     public ResponseEntity<ClashRecord> resolveClash(@PathVariable Long id) {
         return ResponseEntity.ok(clashService.resolveClash(id));
