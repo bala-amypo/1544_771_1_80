@@ -30,7 +30,7 @@ public class UserAccountServiceImpl implements UserAccountService {
         if (user.getRole() == null) {
             user.setRole("REVIEWER");
         }
-
+        
         user.setCreatedAt(LocalDateTime.now());
         return userAccountRepository.save(user);
     }
