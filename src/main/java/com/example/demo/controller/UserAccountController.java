@@ -90,7 +90,7 @@ public class UserAccountController {
         user.setDepartment(request.getDepartment());
 
         UserAccount savedUser = userAccountService.registerUser(user);
-
+        String email = request.getEmail();
         // ✅ FIX IS HERE
         String token = jwtUtil.generateToken(
         Map.of("email", email),
@@ -115,7 +115,7 @@ public class UserAccountController {
                 request.getEmail(),
                 request.getPassword()
         );
-
+        String email = request.getEmail();
         // ✅ FIX IS HERE
         String token = jwtUtil.generateToken(
         Map.of(
