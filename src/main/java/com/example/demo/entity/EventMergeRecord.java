@@ -93,4 +93,6 @@ public class EventMergeRecord {
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
+    public void setId(Long id) { this.id = id; }
+
 }

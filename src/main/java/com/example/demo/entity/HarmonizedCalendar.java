@@ -54,5 +54,10 @@ public class HarmonizedCalendar {
 
     public void setGeneratedAt(LocalDateTime t){ this.generatedAt = t; }
     public void setCreatedAt(LocalDateTime t){ this.generatedAt = t; }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getEventsJson() { return eventsJson; }
+    public String getGeneratedBy() { return generatedBy; }
 
 }
