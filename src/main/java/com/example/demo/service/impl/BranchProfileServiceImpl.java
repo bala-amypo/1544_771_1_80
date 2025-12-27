@@ -52,13 +52,4 @@ public class BranchProfileServiceImpl implements BranchProfileService {
 
         return branchRepo.save(existing);
     }
-     
-    @Override
-    public BranchProfile updateBranchStatus(Long id, boolean status) {
-        BranchProfile bp = branchProfileRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Branch not found"));
-        bp.setActive(status);
-        return branchProfileRepository.save(bp);
-    }
-
 }

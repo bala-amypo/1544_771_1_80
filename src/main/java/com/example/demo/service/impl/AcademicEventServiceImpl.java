@@ -48,12 +48,5 @@ public class AcademicEventServiceImpl implements AcademicEventService {
         return eventRepo.findByBranchId(branchId);
     }
 
-    @Override
-    public AcademicEvent createEvent(AcademicEvent ev) {
-        if (ev.getStartDate().isAfter(ev.getEndDate())) {
-            throw new ValidationException("startDate cannot be after endDate");
-        }
-        return eventRepo.save(ev);
-    }
-
+    
 }

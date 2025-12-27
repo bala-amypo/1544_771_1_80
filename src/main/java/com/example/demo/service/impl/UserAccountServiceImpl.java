@@ -34,22 +34,5 @@ public class UserAccountServiceImpl implements UserAccountService {
         return user;
     }
 
-    public UserAccount register(UserAccount user) {
-    if (userAccountRepository.existsByEmail(user.getEmail())) {
-        throw new ValidationException("Email already in use");
-    }
-    if (user.getPassword() != null && user.getPassword().length() < 8) {
-        throw new ValidationException("Password must be at least 8 characters");
-    }
-    if (user.getRole() == null) {
-        user.setRole("REVIEWER");
-    }
-    return userAccountRepository.save(user);
-}
-
-    public UserAccount getUser(Long id) {
-        return userAccountRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-    }
-
+    
 }
