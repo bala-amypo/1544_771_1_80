@@ -26,12 +26,12 @@
 //     }
 // }
 package com.example.demo.security;
-
+import org.springframework.stereotype.Service;
 import com.example.demo.repository.UserAccountRepository;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.security.core.userdetails.User;
 import java.util.List;
-
+@Service
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserAccountRepository repo;
