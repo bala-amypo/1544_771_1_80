@@ -78,7 +78,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class EventMergeServiceImpl implements EventMergeService {
-
+    
     private final AcademicEventRepository academicEventRepository;
     private final EventMergeRecordRepository eventMergeRecordRepository;
 
@@ -113,7 +113,7 @@ public class EventMergeServiceImpl implements EventMergeService {
 
     @Override
     public List<EventMergeRecord> getAllMerges() {
-        return mergeRepo.findAll();
+        return eventMergeRecordRepository.findAll();
     }
 
 }
