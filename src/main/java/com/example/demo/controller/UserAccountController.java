@@ -57,10 +57,7 @@
 // }
 package com.example.demo.controller;
 
-import com.example.demo.dto.RegisterRequest;
-import com.example.demo.dto.LoginRequest;
-import com.example.demo.dto.AuthResponse;
-import com.example.demo.dto.ApiResponse;
+import com.example.demo.dto.*;
 import com.example.demo.entity.UserAccount;
 import com.example.demo.security.JwtUtil;
 import com.example.demo.service.UserAccountService;
@@ -80,7 +77,8 @@ public class UserAccountController {
     private JwtUtil jwtUtil;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> registerUser(@RequestBody RegisterRequest request) {
+    public ResponseEntity<AuthResponse> registerUser(
+            @RequestBody RegisterRequest request) {
 
         UserAccount user = new UserAccount();
         user.setFullName(request.getFullName());
@@ -91,32 +89,43 @@ public class UserAccountController {
 
         UserAccount savedUser = userAccountService.registerUser(user);
 
-        // ✅ FIX: pass email (String), not UserAccount
+        // ✅ FIX IS HERE
         String token = jwtUtil.generateToken(savedUser.getEmail());
 
-        AuthResponse response =
-                new AuthResponse(token, savedUser.getEmail(), savedUser.getRole());
+        AuthResponse response = new AuthResponse(
+                token,
+                savedUser.getEmail(),
+                savedUser.getRole()
+        );
 
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> loginUser(@RequestBody LoginRequest request) {
+    public ResponseEntity<AuthResponse> loginUser(
+            @RequestBody LoginRequest request) {
 
-        UserAccount user =
-                userAccountService.authenticate(request.getEmail(), request.getPassword());
+        UserAccount user = userAccountService.authenticate(
+                request.getEmail(),
+                request.getPassword()
+        );
 
-        // ✅ FIX: pass email (String)
+        // ✅ FIX IS HERE
         String token = jwtUtil.generateToken(user.getEmail());
 
-        AuthResponse response =
-                new AuthResponse(token, user.getEmail(), user.getRole());
+        AuthResponse response = new AuthResponse(
+                token,
+                user.getEmail(),
+                user.getRole()
+        );
 
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/status")
     public ResponseEntity<ApiResponse> status() {
-        return ResponseEntity.ok(new ApiResponse(true, "Service is running"));
+        return ResponseEntity.ok(
+                new ApiResponse(true, "Service is running")
+        );
     }
 }
