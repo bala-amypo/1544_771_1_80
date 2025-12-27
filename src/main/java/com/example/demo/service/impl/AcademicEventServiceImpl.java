@@ -47,4 +47,6 @@ public class AcademicEventServiceImpl implements AcademicEventService {
     public List<AcademicEvent> getEventsByBranch(Long branchId) {
         return eventRepo.findByBranchId(branchId);
     }
+
+    
 }
