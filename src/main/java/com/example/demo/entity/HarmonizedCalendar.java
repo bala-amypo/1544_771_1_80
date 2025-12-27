@@ -59,5 +59,10 @@ public class HarmonizedCalendar {
 
     public String getEventsJson() { return eventsJson; }
     public String getGeneratedBy() { return generatedBy; }
+    
+    public String getTitle() {
+    return this.title;
+}
+
 
 }

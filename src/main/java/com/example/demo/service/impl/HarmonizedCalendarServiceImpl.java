@@ -68,14 +68,6 @@ public class HarmonizedCalendarServiceImpl implements HarmonizedCalendarService 
         this.repo = repo;
     }
 
-    @Override
-    public HarmonizedCalendar generateCalendar(String title, String user) {
-        HarmonizedCalendar cal = new HarmonizedCalendar();
-        cal.setTitle(title);
-        cal.setGeneratedBy(user);
-        cal.setGeneratedAt(LocalDateTime.now());
-        return repo.save(cal);
-    }
 
     @Override
     public List<HarmonizedCalendar> getAllCalendars() {
@@ -86,4 +78,18 @@ public class HarmonizedCalendarServiceImpl implements HarmonizedCalendarService 
     public HarmonizedCalendar getCalendar(Long id) {
         return repo.findById(id).orElseThrow();
     }
+
+    public HarmonizedCalendar generateHarmonizedCalendar(String title, String generatedBy) {
+    HarmonizedCalendar cal = new HarmonizedCalendar();
+    cal.setTitle(title);
+    cal.setGeneratedBy(generatedBy);
+    cal.prePersist();
+    return harmonizedCalendarRepository.save(cal);
+}
+
+public List<HarmonizedCalendar> getCalendarsWithinRange(LocalDate start, LocalDate end) {
+    return harmonizedCalendarRepository
+            .findByEffectiveFromLessThanEqualAndEffectiveToGreaterThanEqual(start, end);
+}
+
 }

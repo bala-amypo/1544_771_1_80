@@ -17,7 +17,7 @@ import com.example.demo.entity.UserAccount;
 import java.util.List;
 
 public interface UserAccountService {
-    UserAccount registerUser(UserAccount user);
+    UserAccount register(UserAccount user);
     UserAccount authenticate(String email, String password);
     UserAccount getUser(Long id);
     

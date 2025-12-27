@@ -138,6 +138,8 @@ public class JwtUtil {
     public Claims getPayload(String token) {
         return parseToken(token);
     }
+    
+
 
     public String extractUsername(String token) { return parseToken(token).getSubject(); }
     public Long extractUserId(String token) { return Long.valueOf(parseToken(token).get("userId").toString()); }

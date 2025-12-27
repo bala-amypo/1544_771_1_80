@@ -17,7 +17,7 @@ public class UserAccountServiceImpl implements UserAccountService {
     private UserAccountRepository userAccountRepository;
 
     @Override
-    public UserAccount registerUser(UserAccount user) {
+    public UserAccount register(UserAccount user) {
 
         if (userAccountRepository.existsByEmail(user.getEmail())) {
             throw new ValidationException("Email already in use");

@@ -20,7 +20,8 @@ import java.util.List;
 
 public interface HarmonizedCalendarService {
 
-    HarmonizedCalendar generateCalendar(String title, String user);
+    HarmonizedCalendar generateHarmonizedCalendar(String title, String user);
     List<HarmonizedCalendar> getAllCalendars();
     HarmonizedCalendar getCalendar(Long id);
+    List<HarmonizedCalendar> getCalendarsWithinRange(LocalDate start, LocalDate end) 
 }
