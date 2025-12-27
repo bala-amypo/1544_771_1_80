@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-Authorization: Bearer <YOUR_TOKEN>
+
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -52,4 +52,14 @@ private CustomUserDetailsService userDetailsService; // use concrete bean, not i
 
         filterChain.doFilter(request, response);
     }
+    @Bean
+SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http
+        .csrf(csrf -> csrf.disable())
+        .authorizeHttpRequests(auth -> auth
+            .anyRequest().permitAll()
+        );
+    return http.build();
+}
+
 }
