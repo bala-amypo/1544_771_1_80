@@ -19,7 +19,6 @@ import java.util.List;
 public interface UserAccountService {
     UserAccount registerUser(UserAccount user);
     UserAccount authenticate(String email, String password);
-    UserAccount register(UserAccount user);
     UserAccount getUser(Long id);
     
 }
