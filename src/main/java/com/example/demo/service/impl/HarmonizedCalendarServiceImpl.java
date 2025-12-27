@@ -1,8 +1,12 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.entity.AcademicEvent;
 import com.example.demo.entity.HarmonizedCalendar;
+import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.repository.AcademicEventRepository;
 import com.example.demo.repository.HarmonizedCalendarRepository;
 import com.example.demo.service.HarmonizedCalendarService;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,19 +14,37 @@ import java.util.List;
 @Service
 public class HarmonizedCalendarServiceImpl implements HarmonizedCalendarService {
 
-    private final HarmonizedCalendarRepository repository;
+    private final HarmonizedCalendarRepository calendarRepo;
+    private final AcademicEventRepository eventRepo;
 
-    public HarmonizedCalendarServiceImpl(HarmonizedCalendarRepository repository) {
-        this.repository = repository;
+    public HarmonizedCalendarServiceImpl(HarmonizedCalendarRepository calendarRepo,
+                                         AcademicEventRepository eventRepo) {
+        this.calendarRepo = calendarRepo;
+        this.eventRepo = eventRepo;
     }
 
     @Override
-    public HarmonizedCalendar generate(HarmonizedCalendar calendar) {
-        return repository.save(calendar);
+    public HarmonizedCalendar generateCalendar(String title, String generatedBy) {
+
+        List<AcademicEvent> events = eventRepo.findAll();
+
+        HarmonizedCalendar calendar = new HarmonizedCalendar();
+        calendar.setTitle(title);
+        calendar.setGeneratedBy(generatedBy);
+        calendar.setEventsJson(events.toString());
+
+        return calendarRepo.save(calendar);
     }
 
     @Override
-    public List<HarmonizedCalendar> getAll() {
-        return repository.findAll();
+    public List<HarmonizedCalendar> getAllCalendars() {
+        return calendarRepo.findAll();
+    }
+
+    @Override
+    public HarmonizedCalendar getCalendar(Long id) {
+        return calendarRepo.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Calendar not found"));
     }
 }
