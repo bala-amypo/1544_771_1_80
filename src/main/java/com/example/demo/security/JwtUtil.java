@@ -90,11 +90,18 @@ public class JwtUtil {
     private SecretKey key;
     private long expiration;
 
-    // ⭐ REQUIRED by test (default constructor, no args)
+    // ⭐ Constructor required by JwtConfig / failing code
+    public JwtUtil(String secret, Long expiration) {
+        this.key = Keys.hmacShaKeyFor(secret.getBytes());
+        this.expiration = expiration != null ? expiration : 3600000L;
+    }
+
+    // ⭐ No-arg constructor required by test file
     public JwtUtil() {
         this.key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-        this.expiration = 3600000; // 1 hour default
+        this.expiration = 3600000;
     }
+
 
     // ⭐ Used in tests (initKey() must exist)
     public void initKey() {
