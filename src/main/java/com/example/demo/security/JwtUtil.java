@@ -125,14 +125,21 @@ public class JwtUtil {
         );
         return generateToken(claims, user.getEmail());
     }
+// ⭐ Updated parseToken and wrapper
+public ParsedToken parseToken(String token) {
+    Claims claims = Jwts.parserBuilder()
+            .setSigningKey(key)
+            .build()
+            .parseClaimsJws(token)
+            .getBody();
+    return new ParsedToken(claims);
+}
 
-    public Claims parseToken(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-    }
+public static class ParsedToken {
+    private final Claims claims;
+    public ParsedToken(Claims claims) { this.claims = claims; }
+    public Claims getPayload() { return claims; }
+}
 
     // ⭐ Tests use parseToken(...).getPayload().get(...)
     public Claims getPayload(String token) {
@@ -148,4 +155,6 @@ public class JwtUtil {
     public boolean isTokenValid(String token, String username) {
         return extractUsername(token).equals(username);
     }
+
+
 }
