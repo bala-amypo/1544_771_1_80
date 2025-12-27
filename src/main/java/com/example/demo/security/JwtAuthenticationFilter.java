@@ -21,9 +21,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private JwtUtil jwtUtil;
 
-    @Autowired
-    private UserDetailsService userDetailsService;
 
+    @Autowired
+private CustomUserDetailsService userDetailsService; // use concrete bean, not interface
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,

@@ -1,5 +1,5 @@
 package com.example.demo.config;
-
+import com.example.demo.security.CustomUserDetailsService;
 import com.example.demo.security.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +18,8 @@ public class SecurityConfig {
 
     @Autowired
     private JwtAuthenticationFilter jwtAuthFilter;
+     @Autowired
+private CustomUserDetailsService customUserDetailsService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -37,8 +39,14 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
-    }
+    // @Bean
+    // public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+    //     return config.getAuthenticationManager();
+    // }
+   
+
+@Bean
+public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+    return config.getAuthenticationManager();
+}
 }
