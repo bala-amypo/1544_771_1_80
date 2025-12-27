@@ -40,10 +40,15 @@ public class HarmonizedCalendar {
         this.generatedAt = LocalDateTime.now();
     }
 
+    /* ===== GETTERS ===== */
     public LocalDateTime getGeneratedAt() { return generatedAt; }
     public LocalDate getEffectiveFrom() { return effectiveFrom; }
     public LocalDate getEffectiveTo() { return effectiveTo; }
 
+    /* ===== SETTERS ===== */
+    public void setTitle(String title) { this.title = title; }
+    public void setGeneratedBy(String generatedBy) { this.generatedBy = generatedBy; }
+    public void setEventsJson(String eventsJson) { this.eventsJson = eventsJson; }
     public void setEffectiveFrom(LocalDate d) { this.effectiveFrom = d; }
     public void setEffectiveTo(LocalDate d) { this.effectiveTo = d; }
 }

@@ -39,10 +39,21 @@ public class ClashRecord {
         this.resolved = false;
     }
 
-    public boolean getResolved() { return resolved; }
+    /* ===== GETTERS ===== */
+    public Long getId() { return id; }
+    public Long getEventAId() { return eventAId; }
+    public Long getEventBId() { return eventBId; }
+    public String getClashType() { return clashType; }
+    public String getSeverity() { return severity; }
+    public String getDetails() { return details; }
     public LocalDateTime getDetectedAt() { return detectedAt; }
+    public boolean getResolved() { return resolved; }
 
-    public void setResolved(boolean resolved) {
-        this.resolved = resolved;
-    }
+    /* ===== SETTERS ===== */
+    public void setEventAId(Long eventAId) { this.eventAId = eventAId; }
+    public void setEventBId(Long eventBId) { this.eventBId = eventBId; }
+    public void setClashType(String clashType) { this.clashType = clashType; }
+    public void setSeverity(String severity) { this.severity = severity; }
+    public void setDetails(String details) { this.details = details; }
+    public void setResolved(boolean resolved) { this.resolved = resolved; }
 }
