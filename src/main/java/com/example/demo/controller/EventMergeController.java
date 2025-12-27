@@ -2,27 +2,34 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.EventMergeRecord;
 import com.example.demo.service.EventMergeService;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/merges")
+@RequestMapping("/api/merge")
 public class EventMergeController {
 
-    private final EventMergeService service;
+    private final EventMergeService mergeService;
 
-    public EventMergeController(EventMergeService service) {
-        this.service = service;
+    public EventMergeController(EventMergeService mergeService) {
+        this.mergeService = mergeService;
     }
 
     @PostMapping
-    public EventMergeRecord merge(@RequestBody EventMergeRecord record) {
-        return service.saveMerge(record);
+    public ResponseEntity<EventMergeRecord> mergeEvents(
+            @RequestParam List<Long> eventIds,
+            @RequestParam String reason) {
+
+        return ResponseEntity.ok(
+                mergeService.mergeEvents(eventIds, reason)
+        );
     }
 
     @GetMapping
-    public List<EventMergeRecord> getAll() {
-        return service.getAllMerges();
+    public ResponseEntity<List<EventMergeRecord>> getAllMerges() {
+        return ResponseEntity.ok(mergeService.getAllMerges());
     }
 }

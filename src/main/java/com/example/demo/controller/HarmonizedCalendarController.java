@@ -2,27 +2,39 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.HarmonizedCalendar;
 import com.example.demo.service.HarmonizedCalendarService;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/harmonized-calendars")
+@RequestMapping("/api/harmonized-calendar")
 public class HarmonizedCalendarController {
 
-    private final HarmonizedCalendarService service;
+    private final HarmonizedCalendarService calendarService;
 
-    public HarmonizedCalendarController(HarmonizedCalendarService service) {
-        this.service = service;
+    public HarmonizedCalendarController(HarmonizedCalendarService calendarService) {
+        this.calendarService = calendarService;
     }
 
     @PostMapping
-    public HarmonizedCalendar generate(@RequestBody HarmonizedCalendar calendar) {
-        return service.generate(calendar);
+    public ResponseEntity<HarmonizedCalendar> generateCalendar(
+            @RequestParam String title,
+            @RequestParam String generatedBy) {
+
+        return ResponseEntity.ok(
+                calendarService.generateCalendar(title, generatedBy)
+        );
     }
 
     @GetMapping
-    public List<HarmonizedCalendar> getAll() {
-        return service.getAll();
+    public ResponseEntity<List<HarmonizedCalendar>> getAllCalendars() {
+        return ResponseEntity.ok(calendarService.getAllCalendars());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<HarmonizedCalendar> getCalendar(@PathVariable Long id) {
+        return ResponseEntity.ok(calendarService.getCalendar(id));
     }
 }
