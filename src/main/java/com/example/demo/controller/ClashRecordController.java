@@ -82,6 +82,6 @@ public class ClashRecordController {
 //     public ResponseEntity<List<ClashRecord>> getAllClashes() {
 //         return ResponseEntity.ok(clashService.getAllClashes());
 //     }
-// }
+ }
 
 
