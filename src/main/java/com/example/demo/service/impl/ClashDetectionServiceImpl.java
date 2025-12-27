@@ -163,7 +163,7 @@ public class ClashDetectionServiceImpl implements ClashDetectionService {
 //     public List<ClashRecord> getAllClashes() {
 //         return clashRepository.findAll();
 //     }
-}
+//}
 
 
 
