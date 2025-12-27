@@ -23,5 +23,5 @@ public interface HarmonizedCalendarService {
     HarmonizedCalendar generateHarmonizedCalendar(String title, String user);
     List<HarmonizedCalendar> getAllCalendars();
     HarmonizedCalendar getCalendar(Long id);
-    List<HarmonizedCalendar> getCalendarsWithinRange(LocalDate start, LocalDate end) 
+    List<HarmonizedCalendar> getCalendarsWithinRange(LocalDate start, LocalDate end);
 }
