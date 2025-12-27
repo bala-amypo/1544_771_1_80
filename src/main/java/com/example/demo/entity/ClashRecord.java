@@ -34,6 +34,16 @@ public class ClashRecord {
         //this.detectedAt = detectedAt;
         //this.resolved = resolved;
     //}
+    public ClashRecord(Long eventAId, Long eventBId, String clashType, String severity, String details,
+            LocalDateTime detectedAt, Boolean resolved) {
+        this.eventAId = eventAId;
+        this.eventBId = eventBId;
+        this.clashType = clashType;
+        this.severity = severity;
+        this.details = details;
+        this.detectedAt = detectedAt;
+        this.resolved = resolved;
+    }
 
     @PrePersist
     public void prePersist() {
