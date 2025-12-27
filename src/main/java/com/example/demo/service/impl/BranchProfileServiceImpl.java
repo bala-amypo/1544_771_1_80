@@ -67,29 +67,39 @@ import java.util.List;
 @Service
 public class BranchProfileServiceImpl implements BranchProfileService {
 
-    private final BranchProfileRepository branchProfileRepository;
+    private final BranchProfileRepository repo;
 
-    public BranchProfileServiceImpl(BranchProfileRepository branchProfileRepository) {
-        this.branchProfileRepository = branchProfileRepository;
+    public BranchProfileServiceImpl(BranchProfileRepository repo) {
+        this.repo = repo;
     }
 
     @Override
-    public BranchProfile createBranch(BranchProfile branch) {
-        branch.setLastSyncAt(LocalDateTime.now());
-        branch.setActive(true);
-        return branchProfileRepository.save(branch);
+    public BranchProfile createBranch(BranchProfile bp) {
+        bp.setLastSyncAt(LocalDateTime.now());
+        return repo.save(bp);
     }
 
     @Override
-    public BranchProfile updateBranchStatus(Long id, boolean status) {
-        BranchProfile bp = branchProfileRepository.findById(id)
+    public BranchProfile updateBranch(Long id, BranchProfile updated) {
+        BranchProfile bp = repo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Branch not found"));
-        bp.setActive(status);
-        return branchProfileRepository.save(bp);
+        bp.setBranchName(updated.getBranchName());
+        bp.setContactEmail(updated.getContactEmail());
+        bp.setActive(updated.getActive());
+        bp.setLastSyncAt(LocalDateTime.now());
+        return repo.save(bp);
+    }
+
+    @Override
+    public BranchProfile updateBranchStatus(Long id, boolean active) {
+        BranchProfile bp = repo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Branch not found"));
+        bp.setActive(active);
+        return repo.save(bp);
     }
 
     @Override
     public List<BranchProfile> getAllBranches() {
-        return branchProfileRepository.findAll();
+        return repo.findAll();
     }
 }
