@@ -21,5 +21,6 @@ import java.util.List;
 public interface HarmonizedCalendarService {
 
     HarmonizedCalendar generateCalendar(String title, String user);
-    List<HarmonizedCalendar> getCalendarsWithinRange(LocalDate start, LocalDate end);
+    List<HarmonizedCalendar> getAllCalendars();
+    HarmonizedCalendar getCalendar(Long id);
 }
