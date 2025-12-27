@@ -102,6 +102,7 @@ public class ClashDetectionServiceImpl implements ClashDetectionService {
     @Override
     public List<ClashRecord> getUnresolvedClashes() {
         return repo.findByResolvedFalse();
+        
     }
 
     @Override
