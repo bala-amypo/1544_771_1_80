@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "clash_records")
 public class ClashRecord {
 
     @Id
@@ -11,32 +12,32 @@ public class ClashRecord {
     private Long id;
 
     private Long eventAId;
+
     private Long eventBId;
+
     private String clashType;
+
     private String severity;
-    private String description;
+
+    private String details;
 
     private LocalDateTime detectedAt;
+
     private Boolean resolved;
 
-    public ClashRecord() {}
-
-    public ClashRecord(Long id, String clashType, String severity) {
-        this.id = id;
-        this.clashType = clashType;
-        this.severity = severity;
+    public ClashRecord() {
     }
 
-    // 🔥 REQUIRED BY TEST
     public ClashRecord(Long id, Long eventAId, Long eventBId,
-                       String clashType, String severity, String description,
-                       LocalDateTime detectedAt, boolean resolved) {
+                       String clashType, String severity,
+                       String details, LocalDateTime detectedAt,
+                       Boolean resolved) {
         this.id = id;
         this.eventAId = eventAId;
         this.eventBId = eventBId;
         this.clashType = clashType;
         this.severity = severity;
-        this.description = description;
+        this.details = details;
         this.detectedAt = detectedAt;
         this.resolved = resolved;
     }
@@ -44,10 +45,46 @@ public class ClashRecord {
     @PrePersist
     public void prePersist() {
         this.detectedAt = LocalDateTime.now();
-        if (resolved == null) resolved = false;
+        if (this.resolved == null) {
+            this.resolved = false;
+        }
     }
 
-    public Boolean getResolved() { return resolved; }
-    public Long getEventAId() { return eventAId; }
-    public Long getEventBId() { return eventBId; }
+    // Getters and Setters
+
+    public Long getId() {
+        return id;
+    }
+
+    public Long getEventAId() {
+        return eventAId;
+    }
+
+    public Long getEventBId() {
+        return eventBId;
+    }
+
+    public String getClashType() {
+        return clashType;
+    }
+
+    public String getSeverity() {
+        return severity;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public LocalDateTime getDetectedAt() {
+        return detectedAt;
+    }
+
+    public Boolean getResolved() {
+        return resolved;
+    }
+
+    public void setResolved(Boolean resolved) {
+        this.resolved = resolved;
+    }
 }

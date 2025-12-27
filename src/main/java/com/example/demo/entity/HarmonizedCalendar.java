@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "harmonized_calendars")
 public class HarmonizedCalendar {
 
     @Id
@@ -12,24 +13,21 @@ public class HarmonizedCalendar {
     private Long id;
 
     private String title;
+
     private String generatedBy;
+
     private LocalDateTime generatedAt;
 
     private LocalDate effectiveFrom;
+
     private LocalDate effectiveTo;
 
     @Column(columnDefinition = "TEXT")
     private String eventsJson;
 
-    public HarmonizedCalendar() {}
-
-    public HarmonizedCalendar(Long id, String title, LocalDateTime generatedAt) {
-        this.id = id;
-        this.title = title;
-        this.generatedAt = generatedAt;
+    public HarmonizedCalendar() {
     }
 
-    // 🔥 REQUIRED BY TEST
     public HarmonizedCalendar(Long id, String title, String generatedBy,
                               LocalDateTime generatedAt,
                               LocalDate effectiveFrom, LocalDate effectiveTo,
@@ -48,9 +46,33 @@ public class HarmonizedCalendar {
         this.generatedAt = LocalDateTime.now();
     }
 
-    public String getGeneratedBy() { return generatedBy; }
-    public String getEventsJson() { return eventsJson; }
-    public LocalDate getEffectiveFrom() { return effectiveFrom; }
-    public LocalDate getEffectiveTo() { return effectiveTo; }
-    public String getTitle() { return title; }
+    // Getters and Setters
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getGeneratedBy() {
+        return generatedBy;
+    }
+
+    public LocalDateTime getGeneratedAt() {
+        return generatedAt;
+    }
+
+    public LocalDate getEffectiveFrom() {
+        return effectiveFrom;
+    }
+
+    public LocalDate getEffectiveTo() {
+        return effectiveTo;
+    }
+
+    public String getEventsJson() {
+        return eventsJson;
+    }
 }

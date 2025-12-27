@@ -1,7 +1,7 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "branch_profiles")
@@ -11,37 +11,40 @@ public class BranchProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true, nullable = false)
     private String branchCode;
 
-    @Column(nullable = false)
     private String branchName;
 
-    @Column
-    private String location;
+    private String contactEmail;
 
-    @Column
-    private boolean active = true;
+    private LocalDateTime lastSyncAt;
 
-    @Column
-    private LocalDate createdAt;
+    private Boolean active;
 
-    @Column
-    private LocalDate updatedAt;
+    public BranchProfile() {
+    }
 
-    // Constructors
-    public BranchProfile() {}
-
-    public BranchProfile(String branchCode, String branchName, String location) {
+    public BranchProfile(Long id, String branchCode, String branchName,
+                         String contactEmail, LocalDateTime lastSyncAt, Boolean active) {
+        this.id = id;
         this.branchCode = branchCode;
         this.branchName = branchName;
-        this.location = location;
-        this.active = true;
-        this.createdAt = LocalDate.now();
-        this.updatedAt = LocalDate.now();
+        this.contactEmail = contactEmail;
+        this.lastSyncAt = lastSyncAt;
+        this.active = active;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        this.lastSyncAt = LocalDateTime.now();
+        if (this.active == null) {
+            this.active = true;
+        }
     }
 
     // Getters and Setters
+
     public Long getId() {
         return id;
     }
@@ -53,7 +56,7 @@ public class BranchProfile {
     public String getBranchCode() {
         return branchCode;
     }
-
+    
     public void setBranchCode(String branchCode) {
         this.branchCode = branchCode;
     }
@@ -61,51 +64,28 @@ public class BranchProfile {
     public String getBranchName() {
         return branchName;
     }
-
+    
     public void setBranchName(String branchName) {
         this.branchName = branchName;
     }
 
-    public String getLocation() {
-        return location;
+    public String getContactEmail() {
+        return contactEmail;
+    }
+    
+    public void setContactEmail(String contactEmail) {
+        this.contactEmail = contactEmail;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public LocalDateTime getLastSyncAt() {
+        return lastSyncAt;
     }
 
-    public boolean isActive() {
+    public Boolean getActive() {
         return active;
     }
-
-    public void setActive(boolean active) {
+    
+    public void setActive(Boolean active) {
         this.active = active;
-    }
-
-    public LocalDate getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDate createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDate getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDate updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDate.now();
-        updatedAt = LocalDate.now();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDate.now();
     }
 }
