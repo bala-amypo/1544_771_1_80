@@ -1,30 +1,29 @@
 package com.example.demo.security;
 
-import com.example.demo.entity.UserAccount;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 
-import jakarta.annotation.PostConstruct;
 import java.security.Key;
 import java.util.Date;
+import java.util.Map;
 
 @Component
 public class JwtUtil {
 
     private Key key;
-    private static final long EXPIRATION_TIME = 24 * 60 * 60 * 1000; // 24 hours
+    private static final long EXPIRATION_TIME = 60 * 60 * 1000;
 
     @PostConstruct
-    public void init() {
+    public void initKey() {
         this.key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     }
 
-    public String generateTokenForUser(UserAccount user) {
+    public String generateToken(Map<String, Object> claims, String username) {
         return Jwts.builder()
-                .setSubject(user.getEmail())
-                .claim("userId", user.getId())
-                .claim("role", user.getRole())
+                .setClaims(claims)
+                .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(
                         new Date(System.currentTimeMillis() + EXPIRATION_TIME))
@@ -32,7 +31,7 @@ public class JwtUtil {
                 .compact();
     }
 
-    public Claims extractAllClaims(String token) {
+    public Claims parseToken(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
@@ -40,24 +39,11 @@ public class JwtUtil {
                 .getBody();
     }
 
-    public String extractEmail(String token) {
-        return extractAllClaims(token).getSubject();
+    public String extractUsername(String token) {
+        return parseToken(token).getSubject();
     }
 
-    public Long extractUserId(String token) {
-        return extractAllClaims(token).get("userId", Long.class);
-    }
-
-    public String extractRole(String token) {
-        return extractAllClaims(token).get("role", String.class);
-    }
-
-    public boolean isTokenValid(String token) {
-        try {
-            extractAllClaims(token);
-            return true;
-        } catch (JwtException | IllegalArgumentException e) {
-            return false;
-        }
+    public boolean isTokenValid(String token, String username) {
+        return extractUsername(token).equals(username);
     }
 }
