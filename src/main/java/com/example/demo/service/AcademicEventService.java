@@ -25,4 +25,6 @@ public interface AcademicEventService {
     AcademicEvent createEvent(AcademicEvent event);
     List<AcademicEvent> getEventsByBranch(Long branchId);
     List<AcademicEvent> getAllEvents();
+    AcademicEvent getEvent(Long id);
+
 }

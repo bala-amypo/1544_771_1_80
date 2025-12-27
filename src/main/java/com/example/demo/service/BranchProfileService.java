@@ -25,5 +25,6 @@ public interface BranchProfileService {
     BranchProfile updateBranchStatus(Long id, boolean status);
     List<BranchProfile> getAllBranches();
     BranchProfile updateBranch(Long id, BranchProfile updated) ;
-    
+    BranchProfile getBranch(Long id);
+
 }

@@ -85,4 +85,11 @@ public class AcademicEventServiceImpl implements AcademicEventService {
     public List<AcademicEvent> getEventsByBranch(Long branchId) {
         return repo.findByBranchId(branchId);
     }
+
+    @Override
+    public AcademicEvent getEvent(Long id) {
+        return repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Event not found"));
+    }
+
 }
