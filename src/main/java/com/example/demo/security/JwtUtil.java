@@ -11,11 +11,16 @@ public class JwtUtil {
     private final SecretKey key;
     private final long expiration;
 
-    // Constructor receives values from JwtConfig
-    public JwtUtil(String secret, long expiration) {
-        this.key = Keys.hmacShaKeyFor(secret.getBytes());
+    public JwtUtil(String secretKey, long expiration) {
+        this.key = Keys.hmacShaKeyFor(secretKey.getBytes());
         this.expiration = expiration;
     }
+
+    public JwtUtil() {
+        this.key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+        this.expiration = 3600000; // default 1 hour
+    }
+
 
     public String generateToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
@@ -53,11 +58,19 @@ public class JwtUtil {
         return extractUsername(token).equals(username);
     }
 
+    // public Claims parseToken(String token) {
+    //     return Jwts.parserBuilder()
+    //             .setSigningKey(key)
+    //             .build()
+    //             .parseClaimsJws(token)
+    //             .getBody();
+    // }
     public Claims parseToken(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-    }
+    return Jwts.parserBuilder()
+            .setSigningKey(key)
+            .build()
+            .parseClaimsJws(token)
+            .getBody(); // 👈 This returns Claims, which supports get("email")
+}
+
 }
