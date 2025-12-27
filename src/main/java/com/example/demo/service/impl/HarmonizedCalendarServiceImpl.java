@@ -95,8 +95,7 @@ public class HarmonizedCalendarServiceImpl implements HarmonizedCalendarService 
 // }
 
 public List<HarmonizedCalendar> getCalendarsWithinRange(LocalDate start, LocalDate end) {
-    return harmonizedCalendarRepository
-            .findByEffectiveFromLessThanEqualAndEffectiveToGreaterThanEqual(start, end);
+    return repo.findByEffectiveFromLessThanEqualAndEffectiveToGreaterThanEqual(start, end);
 }
 
 }
