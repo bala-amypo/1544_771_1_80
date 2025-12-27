@@ -32,7 +32,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
 
                 // ✅ ALLOW AUTH APIs
-                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/users/register", "/api/users/login").permitAll()
 
                 // ✅ ALLOW SWAGGER
                 .requestMatchers(
