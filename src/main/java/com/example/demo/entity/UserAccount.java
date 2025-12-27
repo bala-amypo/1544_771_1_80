@@ -99,4 +99,7 @@ public class UserAccount {
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
+
+    public void setCreatedAt(LocalDateTime t){ this.createdAt = t; }
+
 }

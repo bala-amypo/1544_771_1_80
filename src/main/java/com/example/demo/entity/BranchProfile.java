@@ -88,4 +88,7 @@ public class BranchProfile {
     public void setActive(Boolean active) {
         this.active = active;
     }
+
+    public void setLastSyncAt(LocalDateTime t){ this.lastSyncAt = t; }
+
 }

@@ -51,4 +51,8 @@ public class HarmonizedCalendar {
     public void setEventsJson(String eventsJson) { this.eventsJson = eventsJson; }
     public void setEffectiveFrom(LocalDate d) { this.effectiveFrom = d; }
     public void setEffectiveTo(LocalDate d) { this.effectiveTo = d; }
+
+    public void setGeneratedAt(LocalDateTime t){ this.generatedAt = t; }
+    public void setCreatedAt(LocalDateTime t){ this.generatedAt = t; }
+
 }

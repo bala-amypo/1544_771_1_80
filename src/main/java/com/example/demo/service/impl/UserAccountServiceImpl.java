@@ -33,6 +33,7 @@ public class UserAccountServiceImpl implements UserAccountService {
         }
         return user;
     }
+
     @Override
     public UserAccount register(UserAccount user) {
         if (userAccountRepository.existsByEmail(user.getEmail())) {
