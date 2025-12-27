@@ -24,7 +24,7 @@ public interface ClashDetectionService {
     List<ClashRecord> getClashesForEvent(Long eventId);
     List<ClashRecord> getUnresolvedClashes();
     ClashRecord resolveClash(Long id);
-}
+//}
 
 
 // package com.example.demo.service;
@@ -44,7 +44,7 @@ public interface ClashDetectionService {
 //     List<ClashRecord> getUnresolvedClashes();
 
 //     List<ClashRecord> getAllClashes();
-// }
+ }
 
 
 
