@@ -29,7 +29,7 @@ public class ClashRecordController {
     public ResponseEntity<ClashRecord> resolveClash(@PathVariable Long id) {
         return ResponseEntity.ok(clashService.resolveClash(id));
     }
-}
+
 
 
 // package com.example.demo.controller;
