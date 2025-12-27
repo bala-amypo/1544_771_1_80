@@ -22,29 +22,19 @@ public class ClashRecord {
 
     public ClashRecord() {}
 
-    //public ClashRecord(long id, Long a, Long b, String type,
-                      // String severity, String details,
-                       //LocalDateTime detectedAt, boolean resolved) {
-        //this.id = id;
-        //this.eventAId = a;
-        //this.eventBId = b;
-        //this.clashType = type;
-        //this.severity = severity;
-        //this.details = details;
-        //this.detectedAt = detectedAt;
-        //this.resolved = resolved;
-    //}
-    public ClashRecord(Long eventAId, Long eventBId, String clashType, String severity, String details,
-            LocalDateTime detectedAt, Boolean resolved) {
-        this.eventAId = eventAId;
-        this.eventBId = eventBId;
-        this.clashType = clashType;
+    public ClashRecord(long id, Long a, Long b, String type,
+                       String severity, String details,
+                       LocalDateTime detectedAt, boolean resolved) {
+        this.id = id;
+        this.eventAId = a;
+        this.eventBId = b;
+        this.clashType = type;
         this.severity = severity;
         this.details = details;
         this.detectedAt = detectedAt;
         this.resolved = resolved;
-    }
-
+        }
+    
     @PrePersist
     public void prePersist() {
         this.detectedAt = LocalDateTime.now();
