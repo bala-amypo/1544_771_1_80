@@ -35,7 +35,7 @@ public interface ClashDetectionService {
 
 // public interface ClashDetectionService {
 
-    ClashRecord logClash(ClashRecord clashRecord);
+ //   ClashRecord logClash(ClashRecord clashRecord);
 
 //     ClashRecord resolveClash(Long id);
 
@@ -44,7 +44,7 @@ public interface ClashDetectionService {
 //     List<ClashRecord> getUnresolvedClashes();
 
 //     List<ClashRecord> getAllClashes();
- }
+// }
 
 
 
