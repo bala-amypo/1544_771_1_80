@@ -73,7 +73,7 @@ public class HarmonizedCalendarServiceImpl implements HarmonizedCalendarService 
         HarmonizedCalendar cal = new HarmonizedCalendar();
         cal.setTitle(title);
         cal.setGeneratedBy(by);
-        return harmonizedCalendarRepository.save(cal);
+        return repo.save(cal);
     }
 
     @Override
