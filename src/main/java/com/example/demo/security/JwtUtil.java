@@ -8,10 +8,13 @@ import java.util.Map;
 
 public class JwtUtil {
 
-    private SecretKey key;
+    private final SecretKey key;
+    private final long expiration;
 
-    public void initKey() {
-        this.key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    // Constructor receives values from JwtConfig
+    public JwtUtil(String secret, long expiration) {
+        this.key = Keys.hmacShaKeyFor(secret.getBytes());
+        this.expiration = expiration;
     }
 
     public String generateToken(Map<String, Object> claims, String subject) {
@@ -19,6 +22,7 @@ public class JwtUtil {
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(key)
                 .compact();
     }
