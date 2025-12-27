@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/merge")
+@SecurityRequirement(name = "bearerAuth")
 public class EventMergeController {
 
     private final EventMergeService mergeService;

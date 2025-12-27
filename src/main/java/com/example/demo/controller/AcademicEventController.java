@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/events")
+@SecurityRequirement(name = "bearerAuth")
 public class AcademicEventController {
 
     private final AcademicEventService eventService;

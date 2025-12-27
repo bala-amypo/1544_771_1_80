@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/clashes")
+@SecurityRequirement(name = "bearerAuth")
 public class ClashRecordController {
 
     private final ClashDetectionService clashService;

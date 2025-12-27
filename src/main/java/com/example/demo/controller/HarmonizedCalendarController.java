@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/harmonized-calendar")
+@SecurityRequirement(name = "bearerAuth")
 public class HarmonizedCalendarController {
 
     private final HarmonizedCalendarService calendarService;

@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/branches")
+@SecurityRequirement(name = "bearerAuth")
 public class BranchProfileController {
 
     private final BranchProfileService branchService;
