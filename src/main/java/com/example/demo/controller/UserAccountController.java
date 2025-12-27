@@ -91,7 +91,11 @@ public class UserAccountController {
         UserAccount savedUser = userAccountService.registerUser(user);
 
         // ✅ FIX IS HERE
-        String token = jwtUtil.generateToken(savedUser.getEmail());
+        String token = jwtUtil.generateToken(
+        Map.of("email", email),
+        email
+);
+
 
         AuthResponse response = new AuthResponse(
                 token,
@@ -112,7 +116,15 @@ public class UserAccountController {
         );
 
         // ✅ FIX IS HERE
-        String token = jwtUtil.generateToken(user.getEmail());
+        String token = jwtUtil.generateToken(
+        Map.of(
+                "userId", user.getId(),
+                "email", user.getEmail(),
+                "role", user.getRole()
+        ),
+        user.getEmail()
+);
+
 
         AuthResponse response = new AuthResponse(
                 token,
