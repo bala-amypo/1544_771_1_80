@@ -11,10 +11,12 @@ public class JwtUtil {
     private final SecretKey key;
     private final long expiration;
 
-    public JwtUtil(String secretKey, long expiration) {
-        this.key = Keys.hmacShaKeyFor(secretKey.getBytes());
+// REPLACE your current constructor with this
+    public JwtUtil(String secret, long expiration) {
+        this.secretKey = Keys.hmacShaKeyFor(secret.getBytes());
         this.expiration = expiration;
     }
+
 
     public JwtUtil() {
         this.key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
@@ -65,12 +67,13 @@ public class JwtUtil {
     //             .parseClaimsJws(token)
     //             .getBody();
     // }
-    public Claims parseToken(String token) {
-    return Jwts.parserBuilder()
-            .setSigningKey(key)
-            .build()
-            .parseClaimsJws(token)
-            .getBody(); // 👈 This returns Claims, which supports get("email")
-}
+        public Claims extractAllClaims(String token) {
+            return Jwts.parserBuilder()
+                    .setSigningKey(secretKey)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+        }
+
 
 }
