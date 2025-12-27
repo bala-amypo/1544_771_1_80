@@ -18,6 +18,8 @@ public class ClashRecord {
     @Column(length = 1000)
     private String details;
 
+    private boolean resolved;   // 🔥 REQUIRED FIELD
+
     public ClashRecord() {
     }
 
@@ -47,7 +49,11 @@ public class ClashRecord {
         return details;
     }
 
-    // ---------- SETTERS (🔥 MISSING BEFORE) ----------
+    public boolean isResolved() {
+        return resolved;
+    }
+
+    // ---------- SETTERS ----------
 
     public void setId(Long id) {
         this.id = id;
@@ -71,5 +77,9 @@ public class ClashRecord {
 
     public void setDetails(String details) {
         this.details = details;
+    }
+
+    public void setResolved(boolean resolved) {   // 🔥 FIX
+        this.resolved = resolved;
     }
 }
