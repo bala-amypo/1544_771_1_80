@@ -8,7 +8,9 @@ public class ClashRecord {
 
     @Id
     @GeneratedValue
+
     private Long id;
+
 
     private Long eventAId;
     private Long eventBId;
