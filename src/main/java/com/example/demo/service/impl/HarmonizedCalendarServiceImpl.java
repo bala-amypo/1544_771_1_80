@@ -67,7 +67,14 @@ public class HarmonizedCalendarServiceImpl implements HarmonizedCalendarService 
     public HarmonizedCalendarServiceImpl(HarmonizedCalendarRepository repo) {
         this.repo = repo;
     }
-
+    
+    @Override
+    public HarmonizedCalendar generateHarmonizedCalendar(String title, String by) {
+        HarmonizedCalendar cal = new HarmonizedCalendar();
+        cal.setTitle(title);
+        cal.setGeneratedBy(by);
+        return harmonizedCalendarRepository.save(cal);
+    }
 
     @Override
     public List<HarmonizedCalendar> getAllCalendars() {

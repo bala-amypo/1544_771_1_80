@@ -77,35 +77,39 @@ public class UserAccountController {
 
     @Autowired
     private JwtUtil jwtUtil;
-
+    
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> registerUser(
-            @RequestBody RegisterRequest request) {
-
-        UserAccount user = new UserAccount();
-        user.setFullName(request.getFullName());
-        user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
-        user.setRole(request.getRole());
-        user.setDepartment(request.getDepartment());
-
-        UserAccount savedUser = userAccountService.registerUser(user);
-        String email = request.getEmail();
-        // ✅ FIX IS HERE
-        String token = jwtUtil.generateToken(
-        Map.of("email", email),
-        email
-);
-
-
-        AuthResponse response = new AuthResponse(
-                token,
-                savedUser.getEmail(),
-                savedUser.getRole()
-        );
-
-        return ResponseEntity.ok(response);
+    public UserAccount registerUser(@RequestBody UserAccount user) {
+        return userAccountService.register(user);
     }
+//     @PostMapping("/register")
+//     public ResponseEntity<AuthResponse> registerUser(
+//             @RequestBody RegisterRequest request) {
+
+//         UserAccount user = new UserAccount();
+//         user.setFullName(request.getFullName());
+//         user.setEmail(request.getEmail());
+//         user.setPassword(request.getPassword());
+//         user.setRole(request.getRole());
+//         user.setDepartment(request.getDepartment());
+
+//         UserAccount savedUser = userAccountService.registerUser(user);
+//         String email = request.getEmail();
+//         // ✅ FIX IS HERE
+//         String token = jwtUtil.generateToken(
+//         Map.of("email", email),
+//         email
+// );
+
+
+//         AuthResponse response = new AuthResponse(
+//                 token,
+//                 savedUser.getEmail(),
+//                 savedUser.getRole()
+//         );
+
+//         return ResponseEntity.ok(response);
+//     }
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> loginUser(

@@ -17,16 +17,20 @@ public class HarmonizedCalendarController {
     public HarmonizedCalendarController(HarmonizedCalendarService calendarService) {
         this.calendarService = calendarService;
     }
-
-    @PostMapping
-    public ResponseEntity<HarmonizedCalendar> generateCalendar(
-            @RequestParam String title,
-            @RequestParam String generatedBy) {
-
-        return ResponseEntity.ok(
-                calendarService.generateCalendar(title, generatedBy)
-        );
+    
+    @PostMapping("/generate/{title}/{by}")
+    public HarmonizedCalendar generateCalendar(@PathVariable String title, @PathVariable String by) {
+        return calendarService.generateHarmonizedCalendar(title, by);
     }
+    // @PostMapping
+    // public ResponseEntity<HarmonizedCalendar> generateCalendar(
+    //         @RequestParam String title,
+    //         @RequestParam String generatedBy) {
+
+    //     return ResponseEntity.ok(
+    //             calendarService.generateCalendar(title, generatedBy)
+    //     );
+    // }
 
     @GetMapping
     public ResponseEntity<List<HarmonizedCalendar>> getAllCalendars() {
