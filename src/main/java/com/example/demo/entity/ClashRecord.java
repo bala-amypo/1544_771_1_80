@@ -10,8 +10,6 @@ public class ClashRecord {
     @GeneratedValue
 
     private Long id;
-
-
     private Long eventAId;
     private Long eventBId;
     private String clashType;
