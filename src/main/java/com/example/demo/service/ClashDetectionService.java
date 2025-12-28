@@ -30,7 +30,7 @@ public interface ClashDetectionService {
 }
 
 
-    ClashRecord logClash(ClashRecord clash);
+   
 
 // package com.example.demo.service;
 
