@@ -20,12 +20,15 @@ import com.example.demo.entity.ClashRecord;
 import java.util.List;
 
 public interface ClashDetectionService {
+    ClashRecord logClash(ClashRecord clash);
     List<ClashRecord> detectClashes();
     List<ClashRecord> getClashesForEvent(Long eventId);
     List<ClashRecord> getUnresolvedClashes();
     ClashRecord resolveClash(Long id);
 }
 
+
+    ClashRecord logClash(ClashRecord clash);
 
 // package com.example.demo.service;
 
