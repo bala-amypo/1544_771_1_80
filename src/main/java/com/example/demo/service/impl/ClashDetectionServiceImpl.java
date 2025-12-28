@@ -117,53 +117,50 @@ public class ClashDetectionServiceImpl implements ClashDetectionService {
 }
 
 
-// package com.example.demo.service.impl;
-
-// import com.example.demo.entity.ClashRecord;
-// import com.example.demo.repository.ClashRecordRepository;
-// import com.example.demo.service.ClashDetectionService;
-// import org.springframework.stereotype.Service;
-
-// import java.util.List;
-
-// @Service
-// public class ClashDetectionServiceImpl implements ClashDetectionService {
-
-//     private final ClashRecordRepository clashRepository;
-
-//     public ClashDetectionServiceImpl(ClashRecordRepository clashRepository) {
-//         this.clashRepository = clashRepository;
-//     }
-
-    // @Override
-    // public ClashRecord logClash(ClashRecord clashRecord) {
-    //     clashRecord.setResolved(false);
-    //     return clashRepository.save(clashRecord);
-    // }
-
-//     @Override
-//     public ClashRecord resolveClash(Long id) {
-//         ClashRecord clash = clashRepository.findById(id)
-//                 .orElseThrow(() -> new RuntimeException("Clash not found"));
-//         clash.setResolved(true);
-//         return clashRepository.save(clash);
-//     }
-
-//     @Override
-//     public List<ClashRecord> getClashesByEvent(Long eventId) {
-//         return clashRepository.findByEventId(eventId);
-//     }
-
-//     @Override
-//     public List<ClashRecord> getUnresolvedClashes() {
-//         return clashRepository.findByResolvedFalse();
-//     }
-
-//     @Override
-//     public List<ClashRecord> getAllClashes() {
-//         return clashRepository.findAll();
-//     }
-//}
 
 
 
+
+
+package com.example.demo.service.impl;
+
+import com.example.demo.entity.ClashRecord;
+import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.repository.ClashRecordRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class ClashDetectionServiceImpl {
+
+    private final ClashRecordRepository clashRecordRepository;
+
+    public ClashDetectionServiceImpl(ClashRecordRepository clashRecordRepository) {
+        this.clashRecordRepository = clashRecordRepository;
+    }
+
+    public ClashRecord logClash(ClashRecord clash) {
+        return clashRecordRepository.save(clash);
+    }
+
+    public List<ClashRecord> getClashesForEvent(Long eventId) {
+        return clashRecordRepository.findByEventAIdOrEventBId(eventId, eventId);
+    }
+
+    public ClashRecord resolveClash(Long clashId) {
+        ClashRecord clash = clashRecordRepository.findById(clashId)
+                .orElseThrow(() -> new ResourceNotFoundException("Clash not found with ID: " + clashId));
+        
+        clash.setResolved(true);
+        return clashRecordRepository.save(clash);
+    }
+
+    public List<ClashRecord> getUnresolvedClashes() {
+        return clashRecordRepository.findByResolvedFalse();
+    }
+
+    public List<ClashRecord> getAllClashes() {
+        return clashRecordRepository.findAll();
+    }
+}
