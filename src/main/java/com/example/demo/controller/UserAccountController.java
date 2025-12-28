@@ -55,95 +55,55 @@
 //         return ResponseEntity.ok(new ApiResponse(true, "Service is running"));
 //     }
 // }
-package com.example.demo.controller;
 
-import com.example.demo.dto.*;
+
+package com.example.demo.service.impl;
+
 import com.example.demo.entity.UserAccount;
-
+import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.exception.ValidationException;
+import com.example.demo.repository.UserAccountRepository;
 import com.example.demo.service.UserAccountService;
-import com.example.demo.security.JwtUtil;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Service;
 
-@RestController
-@RequestMapping("/api/users")
-public class UserAccountController {
+import java.time.LocalDateTime;
 
-    @Autowired
-    private UserAccountService userAccountService;
+@Service
+public class UserAccountServiceImpl implements UserAccountService {
 
     @Autowired
-    private JwtUtil jwtUtil;
-    
-    @PostMapping("/register")
-    public UserAccount registerUser(@RequestBody UserAccount user) {
-        return userAccountService.register(user);
-    }
-//     @PostMapping("/register")
-//     public ResponseEntity<AuthResponse> registerUser(
-//             @RequestBody RegisterRequest request) {
+    private UserAccountRepository userAccountRepository;
 
-//         UserAccount user = new UserAccount();
-//         user.setFullName(request.getFullName());
-//         user.setEmail(request.getEmail());
-//         user.setPassword(request.getPassword());
-//         user.setRole(request.getRole());
-//         user.setDepartment(request.getDepartment());
+    @Override
+    public UserAccount register(UserAccount user) {
 
-//         UserAccount savedUser = userAccountService.registerUser(user);
-//         String email = request.getEmail();
-//         // ✅ FIX IS HERE
-//         String token = jwtUtil.generateToken(
-//         Map.of("email", email),
-//         email
-// );
+        if (userAccountRepository.existsByEmail(user.getEmail())) {
+            throw new ValidationException("Email already in use");
+        }
 
+        if (user.getPassword() == null || user.getPassword().length() < 8) {
+            throw new ValidationException("Password must be at least 8 characters");
+        }
 
-//         AuthResponse response = new AuthResponse(
-//                 token,
-//                 savedUser.getEmail(),
-//                 savedUser.getRole()
-//         );
-
-//         return ResponseEntity.ok(response);
-//     }
-
-    @PostMapping("/login")
-    public ResponseEntity<AuthResponse> loginUser(
-            @RequestBody LoginRequest request) {
-
-        UserAccount user = userAccountService.authenticate(
-                request.getEmail(),
-                request.getPassword()
-        );
-        String email = request.getEmail();
-        // ✅ FIX IS HERE
-        String token = jwtUtil.generateToken(
-        Map.of(
-                "userId", user.getId(),
-                "email", user.getEmail(),
-                "role", user.getRole()
-        ),
-        user.getEmail()
-);
-
-
-        AuthResponse response = new AuthResponse(
-                token,
-                user.getEmail(),
-                user.getRole()
-        );
-
-        return ResponseEntity.ok(response);
+        if (user.getRole() == null) {
+            user.setRole("REVIEWER");
+        }
+        
+        user.setCreatedAt(LocalDateTime.now());
+        return userAccountRepository.save(user);
     }
 
-    @GetMapping("/status")
-    public ResponseEntity<ApiResponse> status() {
-        return ResponseEntity.ok(
-                new ApiResponse(true, "Service is running")
-        );
+    @Override
+    public UserAccount getUser(Long id) {
+        return userAccountRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+    }
+
+    @Override
+    public UserAccount authenticate(String email, String password) {
+        return userAccountRepository.findByEmail(email)
+                .filter(u -> u.getPassword().equals(password))
+                .orElseThrow(() -> new ValidationException("Invalid credentials"));
     }
 }
