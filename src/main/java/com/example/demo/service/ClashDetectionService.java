@@ -22,7 +22,7 @@ import java.util.List;
 public interface ClashDetectionService {
 
 
-    ClashRecord logClash(ClashRecord clash);
+   
     List<ClashRecord> detectClashes();
     List<ClashRecord> getClashesForEvent(Long eventId);
     List<ClashRecord> getUnresolvedClashes();
