@@ -89,6 +89,40 @@ public class ClashDetectionServiceImpl implements ClashDetectionService {
         this.repo = repo;
     }
 
+  
+
+
+ 
+    public ClashDetectionServiceImpl(ClashRecordRepository clashRecordRepository) {
+        this.clashRecordRepository = clashRecordRepository;
+    }
+
+    @Override
+    public ClashRecord logClash(ClashRecord clash) {
+        clash.setResolved(false); // default ah unresolved
+        return clashRecordRepository.save(clash);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     @Override
     public List<ClashRecord> detectClashes() {
         return repo.findAll();
