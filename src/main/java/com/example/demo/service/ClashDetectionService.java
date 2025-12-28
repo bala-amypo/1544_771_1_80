@@ -27,6 +27,7 @@ public interface ClashDetectionService {
     List<ClashRecord> getClashesForEvent(Long eventId);
     List<ClashRecord> getUnresolvedClashes();
     ClashRecord resolveClash(Long id);
+    
 }
 
 
