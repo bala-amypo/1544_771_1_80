@@ -1,20 +1,3 @@
-package com.example.demo.repository;
-
-import com.example.demo.entity.ClashRecord;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.List;
-
-public interface ClashRecordRepository extends JpaRepository<ClashRecord, Long> {
-    
-    List<ClashRecord> findByEventAIdOrEventBId(Long eventAId, Long eventBId);
-
-    List<ClashRecord> findByResolvedFalse();
-}
-
-
-
-
 // package com.example.demo.repository;
 
 // import com.example.demo.entity.ClashRecord;
@@ -23,10 +6,14 @@ public interface ClashRecordRepository extends JpaRepository<ClashRecord, Long> 
 // import java.util.List;
 
 // public interface ClashRecordRepository extends JpaRepository<ClashRecord, Long> {
+    
+//     List<ClashRecord> findByEventAIdOrEventBId(Long eventAId, Long eventBId);
 
-//     // ✅ REQUIRED for getClashesByEvent()
-//     List<ClashRecord> findByEventId(Long eventId);
-
-//     // ✅ REQUIRED for unresolved clashes
 //     List<ClashRecord> findByResolvedFalse();
 // }
+
+
+
+
+
+
